@@ -1,7 +1,7 @@
-package my.app.sportvideofeedapp.di.placeHolderSubcomponent
+package my.app.sportvideofeedapp.di.feedSubcomponent
 
 import dagger.Module
 
 @Module
-    (subcomponents = [PlaceHolderComponent::class])
-interface PlaceHolderSubcomponentFactory
+    (subcomponents = [FeedSubcomponent::class])
+interface FeedSubcomponentFactory

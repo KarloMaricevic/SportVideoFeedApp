@@ -6,22 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import my.app.sportvideofeedapp.BaseApplication
-import my.app.sportvideofeedapp.databinding.FragmentPlaceHolderBinding
+import my.app.sportvideofeedapp.databinding.FragmentFeedBinding
 import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces
-import my.app.sportvideofeedapp.routers.PlaceHolderRouter
-import my.app.sportvideofeedapp.viewmodels.placeholderViewmodel.PlaceHolderViewModel
+import my.app.sportvideofeedapp.routers.FeedRouter
+import my.app.sportvideofeedapp.viewmodels.FeedViewModel
 
-class PlaceHolderFragment : NetworkFragment<PlaceHolderViewModel, PlaceHolderRouter, PlaceHolderNavigationPlaces>() {
+class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter, PlaceHolderNavigationPlaces>() {
 
-    private lateinit var mBinding: FragmentPlaceHolderBinding
+    private lateinit var mBinding: FragmentFeedBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (activity!!.application as BaseApplication)
             .getAppComponent()
-            .getPlaceHolderSubcomponentFactory()
+            .getFeedSubcomponentFactory()
             .create(this)
             .inject(this)
-        mViewModel = ViewModelProvider(this, mViewModelFactory).get(PlaceHolderViewModel::class.java)
+        mViewModel = ViewModelProvider(this, mViewModelFactory).get(FeedViewModel::class.java)
         super.onCreate(savedInstanceState)
     }
 
@@ -30,7 +30,7 @@ class PlaceHolderFragment : NetworkFragment<PlaceHolderViewModel, PlaceHolderRou
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = FragmentPlaceHolderBinding.inflate(inflater, container, false)
+        mBinding = FragmentFeedBinding.inflate(inflater, container, false)
         return mBinding.root
     }
 

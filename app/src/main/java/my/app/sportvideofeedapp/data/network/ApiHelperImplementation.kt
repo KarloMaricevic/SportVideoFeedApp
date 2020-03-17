@@ -4,4 +4,4 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ImplementationApiHelper @Inject constructor() : ApiHelper
+class ApiHelperImplementation @Inject constructor() : ApiHelper

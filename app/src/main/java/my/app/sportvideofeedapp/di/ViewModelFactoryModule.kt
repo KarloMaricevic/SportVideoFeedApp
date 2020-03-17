@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import my.app.sportvideofeedapp.di.key.ViewModelKey
 import my.app.sportvideofeedapp.viewmodels.DaggerViewModelFactory
-import my.app.sportvideofeedapp.viewmodels.placeholderViewmodel.PlaceHolderViewModel
+import my.app.sportvideofeedapp.viewmodels.FeedViewModel
 
 @Module
 interface ViewModelFactoryModule {
@@ -16,6 +16,6 @@ interface ViewModelFactoryModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(PlaceHolderViewModel::class)
-    fun providePlaceHolderViewModel(placeHolderViewModel: PlaceHolderViewModel): ViewModel
+    @ViewModelKey(FeedViewModel::class)
+    fun provideFeedViewModel(feedViewModel: FeedViewModel): ViewModel
 }

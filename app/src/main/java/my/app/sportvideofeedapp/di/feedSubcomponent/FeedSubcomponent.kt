@@ -12,11 +12,11 @@ import my.app.sportvideofeedapp.ui.FeedFragment
         FeedModule::class
     ]
 )
-interface FeedComponent {
+interface FeedSubcomponent {
     fun inject(feedFragment: FeedFragment)
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(@BindsInstance fragment: Fragment): FeedComponent
+        fun create(@BindsInstance fragment: Fragment): FeedSubcomponent
     }
 }
