@@ -2,12 +2,15 @@ package my.app.sportvideofeedapp.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import my.app.sportvideofeedapp.BASE_URL
 import my.app.sportvideofeedapp.CONNECT_TIMEOUT_SECONDS
 import my.app.sportvideofeedapp.READ_TIMEOUT_SECONDS
 import my.app.sportvideofeedapp.WRITE_TIMEOUT_SECONDS
+import my.app.sportvideofeedapp.data.network.ApiHelper
+import my.app.sportvideofeedapp.data.network.ApiHelperImplementation
 import my.app.sportvideofeedapp.data.network.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -65,4 +68,8 @@ interface NetworkSourceModule {
             return retrofit.create(ApiService::class.java)
         }
     }
+
+    @Binds
+    @Singleton
+    fun providesApiHelper(apiHelperImplementation: ApiHelperImplementation): ApiHelper
 }

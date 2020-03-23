@@ -6,16 +6,19 @@ import dagger.Component
 import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.di.feedSubcomponent.FeedSubcomponent
 import my.app.sportvideofeedapp.di.feedSubcomponent.FeedSubcomponentFactory
+import my.app.sportvideofeedapp.di.qualifiers.AppContext
 import javax.inject.Singleton
 
 @Singleton
 @Component
     (
     modules = [
-    NetworkSourceModule::class,
-    SchedulerModule::class,
-    FeedSubcomponentFactory::class,
-    ViewModelFactoryModule::class
+        NetworkSourceModule::class,
+        SchedulerModule::class,
+        FeedSubcomponentFactory::class,
+        ViewModelFactoryModule::class,
+        ConvertersModule::class,
+        MappersModule::class
     ]
 )
 interface AppComponent {
@@ -25,6 +28,6 @@ interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance appContext: Context): AppComponent
+        fun create(@BindsInstance @AppContext appContext: Context): AppComponent
     }
 }

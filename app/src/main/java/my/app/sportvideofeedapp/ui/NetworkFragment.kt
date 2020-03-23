@@ -18,7 +18,7 @@ import my.app.sportvideofeedapp.utlis.widgets.GeneralErrorSnackBarBuilder
 abstract class NetworkFragment<VM : NetworkViewModel<NP>, R : Router, NP : NavigationPlaces> :
     BaseFragment<VM, R, NP>(), NetworkView {
 
-    private lateinit var mGeneralErrorSnackBarBuilder: GeneralErrorSnackBarBuilder
+    private val mGeneralErrorSnackBarBuilder = GeneralErrorSnackBarBuilder
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

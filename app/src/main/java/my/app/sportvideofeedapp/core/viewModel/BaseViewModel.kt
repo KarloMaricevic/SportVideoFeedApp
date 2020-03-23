@@ -29,4 +29,12 @@ abstract class BaseViewModel<NP : NavigationPlaces> : ViewModel() {
     fun getIsLoading() = isLoading as LiveData<Loading>
 
     fun getNavigateTo() = navigateTo as LiveData<NP>
+
+    fun navigateBack() {
+        navigateTo.value = NavigationPlaces.NavigateBack as NP
+    }
+
+    fun exitApp() {
+        navigateTo.value = NavigationPlaces.ExitApp as NP
+    }
 }

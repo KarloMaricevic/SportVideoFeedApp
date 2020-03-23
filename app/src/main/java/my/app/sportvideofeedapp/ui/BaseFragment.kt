@@ -2,10 +2,10 @@ package my.app.sportvideofeedapp.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.core.views.LoadingView
 import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.core.router.Router
@@ -31,14 +31,18 @@ abstract class BaseFragment<VM : BaseViewModel<NP>, R : Router, NP : NavigationP
     private var mLadingDialog = CustomProgressDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (activity!!.application as BaseApplication)
-            .getAppComponent()
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this) {
+                mViewModel.navigateBack()
+            }
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeLoading()
+        observeNavigation()
     }
 
     private fun observeLoading() {
@@ -69,8 +73,8 @@ abstract class BaseFragment<VM : BaseViewModel<NP>, R : Router, NP : NavigationP
         }
     }
 
-    fun observeNavigation() {
-        mViewModel.getNavigateTo().observe(this, Observer {
+    private fun observeNavigation() {
+        mViewModel.getNavigateTo().observe(viewLifecycleOwner, Observer {
             navigate(it)
         })
     }

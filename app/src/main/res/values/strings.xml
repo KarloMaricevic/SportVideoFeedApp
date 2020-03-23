@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">SportFeed</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--feed_toolbar_menu-->
+
+    <string name="choose_sport_spinner_title">Choose sport</string>
+
+    <!--item_single_feed-->
+    <string name="length">Length:</string>
+    <string name="before">Before:</string>
+    <string name="sponsor_athlete">Sponsor athlete:"</string>
+    <string name="poster_image_content_description">Poster image</string>
+
+    <!--item_sport-->
+    <string name="sport_image_content_description">Sport image</string>
+
 </resources>

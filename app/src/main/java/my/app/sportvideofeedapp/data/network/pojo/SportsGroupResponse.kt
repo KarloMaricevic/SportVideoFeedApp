@@ -1,5 +1,6 @@
 package my.app.sportvideofeedapp.data.network.pojo
 
-data class PojoPlaceHolder(
+data class SportsGroupResponse(
+    val id: Int,
     val name: String
 )

@@ -6,7 +6,7 @@ import androidx.navigation.fragment.findNavController
 open class DefaultRouter(private val fragment: Fragment) : Router {
 
     override fun navigateBack() {
-        if (fragment.findNavController().navigateUp()) {
+        if (!fragment.findNavController().navigateUp()) {
             exitApp()
         }
     }

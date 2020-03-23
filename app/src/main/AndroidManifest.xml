@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="my.app.sportvideofeedapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="my.app.sportvideofeedapp.BaseApplication"
         android:allowBackup="true"
