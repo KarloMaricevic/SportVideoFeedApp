@@ -12,11 +12,10 @@ import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.HTT
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.JSON_SYNTAX_EXCEPTION
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.UNKNOWN
 import my.app.sportvideofeedapp.core.views.NetworkView
-import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.utlis.widgets.GeneralErrorSnackBarBuilder
 
-abstract class NetworkFragment<VM : NetworkViewModel<NP>, R : Router, NP : NavigationPlaces> :
-    BaseFragment<VM, R, NP>(), NetworkView {
+abstract class NetworkFragment<VM : NetworkViewModel, R : Router> :
+    BaseFragment<VM, R>(), NetworkView {
 
     private val mGeneralErrorSnackBarBuilder = GeneralErrorSnackBarBuilder
 

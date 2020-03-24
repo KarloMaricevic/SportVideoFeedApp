@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SportFeed</string>
 
+    <string name="cache_type">media_cache</string>
+
     <!--feed_toolbar_menu-->
 
     <string name="choose_sport_spinner_title">Choose sport</string>

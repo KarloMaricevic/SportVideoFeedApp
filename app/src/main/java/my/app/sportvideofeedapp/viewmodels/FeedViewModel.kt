@@ -6,7 +6,7 @@ import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.data.interactors.FeedInteractor
-import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces
+import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces.NavigateToVideoFragment
 import my.app.sportvideofeedapp.utlis.scheduler.SchedulerProvider
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class FeedViewModel @Inject constructor(
     private val feedInteractor: FeedInteractor,
     private val schedulersProvider: SchedulerProvider
 ) :
-    NetworkViewModel<PlaceHolderNavigationPlaces>() {
+    NetworkViewModel() {
 
     private val allSports = MutableLiveData<List<Sport>>()
 
@@ -59,5 +59,9 @@ class FeedViewModel @Inject constructor(
                 }
             )
         mCompositeDisposable.add(getPageDisposable)
+    }
+
+    fun navigateToVideoFragment(feedItem: FeedItem) {
+        navigateTo.value = NavigateToVideoFragment(feedItem)
     }
 }

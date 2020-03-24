@@ -12,15 +12,17 @@ import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.adapters.FeedListAdapter
 import my.app.sportvideofeedapp.adapters.FeedListItemDecoration
 import my.app.sportvideofeedapp.adapters.SportSpinnerAdapter
+import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.databinding.FragmentFeedBinding
 import my.app.sportvideofeedapp.routers.FeedRouter
+import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces
 import my.app.sportvideofeedapp.ui.NetworkFragment
 import my.app.sportvideofeedapp.viewmodels.FeedViewModel
 import javax.inject.Inject
 
-class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter, PlaceHolderNavigationPlaces>(),
+class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
     FeedFragmentCallback {
 
     private lateinit var mBinding: FragmentFeedBinding
@@ -82,6 +84,19 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter, PlaceHolderNavig
     override fun chosenSportCallback(sport: Sport) {
         mViewModel.setChosenSport(sport)
         mViewModel.loadFeedItems()
+    }
+
+    override fun feedItemPressedCallback(feedItem: FeedItem) {
+        mViewModel.navigateToVideoFragment(feedItem)
+    }
+
+    override fun navigate(navigateTo: NavigationPlaces) {
+        super.navigate(navigateTo)
+        when (navigateTo) {
+            is PlaceHolderNavigationPlaces.NavigateToVideoFragment -> router.navigateToVideoFragment(
+                navigateTo.feedItem
+            )
+        }
     }
 
     companion object {

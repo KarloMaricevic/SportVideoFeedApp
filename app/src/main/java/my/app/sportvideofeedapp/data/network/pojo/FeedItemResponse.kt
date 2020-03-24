@@ -1,7 +1,6 @@
 package my.app.sportvideofeedapp.data.network.pojo
 
 import com.google.gson.annotations.SerializedName
-import java.util.Date
 
 data class FeedItemResponse(
     val id: String,

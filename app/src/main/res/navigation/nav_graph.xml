@@ -9,5 +9,18 @@
         android:id="@+id/placeHolderFragment"
         android:name="my.app.sportvideofeedapp.ui.feedFragment.FeedFragment"
         android:label="fragment_place_holder"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_placeHolderFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="my.app.sportvideofeedapp.ui.videoFragment.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" >
+        <argument
+            android:name="feedItem"
+            app:argType="my.app.sportvideofeedapp.data.entities.FeedItem" />
+    </fragment>
 </navigation>

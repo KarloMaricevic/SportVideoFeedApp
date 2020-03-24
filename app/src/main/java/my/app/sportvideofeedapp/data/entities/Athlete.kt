@@ -1,5 +1,9 @@
 package my.app.sportvideofeedapp.data.entities
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 class Athlete(
     val id: Int,
     val age: Int,
@@ -9,4 +13,4 @@ class Athlete(
     val isCelebrity: Boolean,
     val country: Country,
     val sport: Sport
-)
+) : Parcelable

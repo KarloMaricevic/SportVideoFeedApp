@@ -2,16 +2,17 @@ package my.app.sportvideofeedapp.core.router
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import javax.inject.Inject
 
-open class DefaultRouter(private val fragment: Fragment) : Router {
+open class DefaultRouter @Inject constructor(protected val mFragment: Fragment) : Router {
 
     override fun navigateBack() {
-        if (!fragment.findNavController().navigateUp()) {
+        if (!mFragment.findNavController().navigateUp()) {
             exitApp()
         }
     }
 
     override fun exitApp() {
-        fragment.activity!!.finishAndRemoveTask()
+        mFragment.activity!!.finishAndRemoveTask()
     }
 }

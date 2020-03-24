@@ -17,8 +17,8 @@ import my.app.sportvideofeedapp.core.views.NavigationView
 import my.app.sportvideofeedapp.utlis.widgets.CustomProgressDialog
 import javax.inject.Inject
 
-abstract class BaseFragment<VM : BaseViewModel<NP>, R : Router, NP : NavigationPlaces> : Fragment(),
-    LoadingView, NavigationView<NP> {
+abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
+    LoadingView, NavigationView {
 
     @Inject
     lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -66,7 +66,7 @@ abstract class BaseFragment<VM : BaseViewModel<NP>, R : Router, NP : NavigationP
         }
     }
 
-    override fun navigate(navigateTo: NP) {
+    override fun navigate(navigateTo: NavigationPlaces) {
         when (navigateTo) {
             is NavigationPlaces.NavigateBack -> router.navigateBack()
             is NavigationPlaces.ExitApp -> router.exitApp()

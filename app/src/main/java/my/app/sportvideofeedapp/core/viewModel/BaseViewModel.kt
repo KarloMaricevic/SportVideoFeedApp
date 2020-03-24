@@ -7,9 +7,9 @@ import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.core.viewModel.BaseViewModel.Loading.LOADING
 import my.app.sportvideofeedapp.core.viewModel.BaseViewModel.Loading.NOT_LOADING
 
-abstract class BaseViewModel<NP : NavigationPlaces> : ViewModel() {
+abstract class BaseViewModel: ViewModel() {
 
-    protected val navigateTo = MutableLiveData<NP>()
+    protected val navigateTo = MutableLiveData<NavigationPlaces>()
 
     enum class Loading {
         NOT_LOADING,
@@ -28,13 +28,13 @@ abstract class BaseViewModel<NP : NavigationPlaces> : ViewModel() {
 
     fun getIsLoading() = isLoading as LiveData<Loading>
 
-    fun getNavigateTo() = navigateTo as LiveData<NP>
+    fun getNavigateTo() = navigateTo as LiveData<NavigationPlaces>
 
     fun navigateBack() {
-        navigateTo.value = NavigationPlaces.NavigateBack as NP
+        navigateTo.value = NavigationPlaces.NavigateBack
     }
 
     fun exitApp() {
-        navigateTo.value = NavigationPlaces.ExitApp as NP
+        navigateTo.value = NavigationPlaces.ExitApp
     }
 }

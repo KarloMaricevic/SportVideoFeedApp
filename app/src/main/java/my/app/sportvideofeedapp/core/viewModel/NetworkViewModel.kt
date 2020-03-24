@@ -3,7 +3,6 @@ package my.app.sportvideofeedapp.core.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonSyntaxException
-import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.HTTP_BAD_REQUEST
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.HTTP_FORBIDDEN
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.HTTP_INTERNAL_ERROR
@@ -14,7 +13,7 @@ import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.UNK
 import retrofit2.HttpException
 import javax.net.ssl.HttpsURLConnection
 
-abstract class NetworkViewModel<NP : NavigationPlaces> : RxViewModel<NP>() {
+abstract class NetworkViewModel : RxViewModel() {
 
     enum class NetworkError {
         NONE,
