@@ -1,8 +1,7 @@
 package my.app.sportvideofeedapp.utlis.exo
 
-import my.app.sportvideofeedapp.CURRENT_POSITION_KEY
-import my.app.sportvideofeedapp.data.sp.AppPreferenceHelper
 import android.net.Uri
+import android.os.Build
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.PlaybackPreparer
@@ -11,6 +10,8 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.util.Util
+import my.app.sportvideofeedapp.CURRENT_POSITION_KEY
+import my.app.sportvideofeedapp.data.sp.AppPreferenceHelper
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -22,6 +23,9 @@ import javax.inject.Provider
  *
  * tnx nahkoca :)
  */
+
+// suppressed TooManyFunctions: this is a util class and expected more than 11 methods
+@Suppress("TooManyFunctions")
 class ExoUtil @Inject constructor(
     private val exoPlayer: Provider<ExoPlayer>,
     private val factory: ProgressiveMediaSource.Factory,
@@ -33,7 +37,8 @@ class ExoUtil @Inject constructor(
     private var mPlayerStateListener: PlayerStateListener? = null
     private var mPlayerView: PlayerView? = null
 
-    private var mShouldAutoPlay: Boolean = true
+    private var mInitShouldAutoPlay: Boolean = true
+    private var initPlayerPosition: Long = 0
     private var mUrl: String? = null
 
     /**
@@ -68,24 +73,51 @@ class ExoUtil @Inject constructor(
         this.mUrl = url
     }
 
+    fun setInitPlayerPosition(playerPosition: Long) {
+        this.initPlayerPosition = playerPosition
+    }
+
+    fun pauseVideo(){
+        mPlayerView?.player?.playWhenReady= false
+    }
+
+    fun playVideo(){
+        mPlayerView?.player?.playWhenReady= true
+    }
+
+    fun seekTo(playerPosition: Long){
+        mPlayerView?.player?.seekTo(playerPosition)
+    }
+
+    fun getPlayerPosition() = simpleExoPlayer?.currentPosition ?: 0
+
+    fun setPlayerControlDispatcher(controlDispatcher: com.google.android.exoplayer2.ControlDispatcher) {
+        if (mPlayerView == null) {
+            throw NullPointerException("Set playerView first")
+        } else {
+            mPlayerView?.setControlDispatcher(controlDispatcher)
+        }
+    }
+
     /**
      * Initializes the [ExoUtil.exoPlayer]
      */
     private fun initializePlayer() {
         simpleExoPlayer = exoPlayer.get()
+        simpleExoPlayer?.seekTo(initPlayerPosition)
         mPlayerView?.apply {
             player = simpleExoPlayer
             setPlaybackPreparer(this@ExoUtil)
         }
         simpleExoPlayer?.apply {
             addListener(this@ExoUtil)
-            playWhenReady = mShouldAutoPlay
+            playWhenReady = mInitShouldAutoPlay
         }
 
         mUrl?.let { url ->
             simpleExoPlayer?.prepare(buildMediaSource(Uri.parse(url)))
-            simpleExoPlayer?.seekTo(preferenceUtil.getLongData(CURRENT_POSITION_KEY, 0))
         }
+        simpleExoPlayer?.seekTo(initPlayerPosition)
     }
 
     /**
@@ -96,7 +128,7 @@ class ExoUtil @Inject constructor(
             exoPlayer.stop()
             exoPlayer.release()
             exoPlayer.removeListener(this)
-            mShouldAutoPlay = exoPlayer.playWhenReady
+            mInitShouldAutoPlay = exoPlayer.playWhenReady
             preferenceUtil.putLongData(CURRENT_POSITION_KEY, exoPlayer.currentPosition)
             simpleExoPlayer = null
         }
@@ -115,15 +147,9 @@ class ExoUtil @Inject constructor(
      * @param error represents an error
      */
     override fun onPlayerError(error: ExoPlaybackException) {
-        mPlayerStateListener?.onPlayerError()
+        mPlayerStateListener?.onPlayerError(error)
     }
 
-    /**
-     * Gets called when video is ready to be played.
-     *
-     * @param playWhenReady indicates whether or not video is ready to be played
-     * @param playbackState indicates the status of video
-     */
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         mPlayerStateListener?.onPlayerStateChanged(playbackState)
     }
@@ -132,7 +158,7 @@ class ExoUtil @Inject constructor(
      * Clears references
      */
     fun onStart() {
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > Build.VERSION_CODES.M) {
             initializePlayer()
             mPlayerView?.onResume()
         }
@@ -142,7 +168,7 @@ class ExoUtil @Inject constructor(
      * Regains references
      */
     fun onResume() {
-        if (Util.SDK_INT <= 23 || mPlayerView == null) {
+        if (Util.SDK_INT <= Build.VERSION_CODES.M || mPlayerView == null) {
             initializePlayer()
             mPlayerView?.onResume()
         }
@@ -152,7 +178,7 @@ class ExoUtil @Inject constructor(
      * Clears references
      */
     fun onPause() {
-        if (Util.SDK_INT <= 23) {
+        if (Util.SDK_INT <= Build.VERSION_CODES.M) {
             mPlayerView?.onPause()
             releasePlayer()
         }
@@ -162,7 +188,7 @@ class ExoUtil @Inject constructor(
      * Regains references
      */
     fun onStop() {
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > Build.VERSION_CODES.M) {
             mPlayerView?.onPause()
             releasePlayer()
         }
@@ -183,6 +209,6 @@ class ExoUtil @Inject constructor(
         /**
          * Gets called when there is an error to play media
          */
-        fun onPlayerError()
+        fun onPlayerError(error: ExoPlaybackException)
     }
 }

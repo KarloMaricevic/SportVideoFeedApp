@@ -64,7 +64,7 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
         }
     }
 
-    private fun connectViewModel() {
+    override fun connectViewModel() {
         mViewModel.getAllSports().observe(viewLifecycleOwner, Observer {
             sportAdapter.clear()
             sportAdapter.addAll(it)

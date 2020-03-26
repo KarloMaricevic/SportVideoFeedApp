@@ -25,6 +25,8 @@ buildscript {
 
         glide_version = '4.11.0'
 
+        exo_player_version = '2.11.3'
+
 
         junit_jupiter_version = '5.6.0'
         truth_version = '1.0.1'

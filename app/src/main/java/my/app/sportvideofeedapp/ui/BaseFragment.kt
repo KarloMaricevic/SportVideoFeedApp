@@ -43,6 +43,7 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         observeLoading()
         observeNavigation()
+        connectViewModel()
     }
 
     private fun observeLoading() {
@@ -78,4 +79,6 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
             navigate(it)
         })
     }
+
+    abstract fun connectViewModel()
 }

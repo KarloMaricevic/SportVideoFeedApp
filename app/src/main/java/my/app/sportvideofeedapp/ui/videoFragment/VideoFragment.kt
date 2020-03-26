@@ -5,29 +5,32 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.exoplayer2.ExoPlaybackException
+import io.reactivex.disposables.Disposable
 import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.core.router.DefaultRouter
 import my.app.sportvideofeedapp.databinding.FragmentVideoBinding
 import my.app.sportvideofeedapp.ui.BaseFragment
+import my.app.sportvideofeedapp.utlis.exo.CustomPlayerControlDispatcher
 import my.app.sportvideofeedapp.utlis.exo.ExoUtil
-import my.app.sportvideofeedapp.utlis.exo.ExoUtilFactory
+import my.app.sportvideofeedapp.utlis.exo.ExoUtilHandler
 import my.app.sportvideofeedapp.viewmodels.VideoViewModel
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- */
 class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
-    ExoUtil.PlayerStateListener {
+    ExoUtil.PlayerStateListener, VideoFragmentCallback {
 
     @Inject
-    internal lateinit var exoUtilFactory: ExoUtilFactory
-    private lateinit var exoUtil: ExoUtil
+    internal lateinit var mExoUtil: ExoUtil
+
+    private val mCustomPlayerControlDispatcher = CustomPlayerControlDispatcher(this)
 
     private lateinit var mBinding: FragmentVideoBinding
+
+    internal lateinit var mDisposable: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (activity!!.application as BaseApplication)
@@ -38,7 +41,6 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
         val navigationArgs: VideoFragmentArgs by navArgs()
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(VideoViewModel::class.java)
         mViewModel.setFeedItem(navigationArgs.feedItem)
-        setUpExoPlayer(navigationArgs.feedItem.video.videoUrl)
         super.onCreate(savedInstanceState)
     }
 
@@ -53,19 +55,85 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        exoUtil.setPlayerView(mBinding.videoPlayerView)
+        mBinding.videoPlayerView.setControlDispatcher(mCustomPlayerControlDispatcher)
+        setUpExoPlayer()
     }
 
-    private fun setUpExoPlayer(url: String) {
-        exoUtil = exoUtilFactory.exoUtil
-        exoUtil.setUrl(url)
-        exoUtil.setListener(this)
-        this.lifecycle.addObserver(ExoUtilHandler(exoUtil))
+    override fun onPause() {
+        mViewModel.setSavedPlayerPosition(mExoUtil.getPlayerPosition())
+        mDisposable.dispose()
+        super.onPause()
     }
 
-    override fun onPlayerStateChanged(playbackState: Int) {}
-
-    override fun onPlayerError() {
-        Log.e("Error", "erer")
+    private fun setUpExoPlayer() {
+        mExoUtil.setPlayerView(mBinding.videoPlayerView)
+        mExoUtil.setUrl(mViewModel.getFeedItem().video.videoUrl)
+        mExoUtil.setPlayerControlDispatcher(mCustomPlayerControlDispatcher)
+        mExoUtil.setInitPlayerPosition(mViewModel.getSavedPlayerPosition())
+        mExoUtil.setListener(this)
+        ExoUtilHandler.makeAndConnectExoUtilHandler(mExoUtil, this.lifecycle)
     }
+
+    //region Callbacks
+
+    // Suppressed magic number because they are defined in Player.java class
+    @Suppress("MagicNumber")
+    override fun onPlayerStateChanged(playbackState: Int) {
+        when (playbackState) {
+            1 -> mViewModel.setState(VideoViewModel.PlayerState.STATE_IDLE)
+            2 -> mViewModel.setState(VideoViewModel.PlayerState.STATE_BUFFERING)
+            3 -> mViewModel.setState(VideoViewModel.PlayerState.STATE_READY)
+            4 -> mViewModel.setState(VideoViewModel.PlayerState.STATE_ENDED)
+            else -> {
+            }
+        }
+    }
+
+    override fun onPlayerError(error: ExoPlaybackException) {
+        mViewModel.setError(error)
+    }
+
+    override fun playPressed() {
+        mViewModel.playVideo()
+    }
+
+    override fun pausePressed() {
+        mViewModel.pauseVideo()
+    }
+
+    override fun seekTo(positionMs: Long) {
+        mViewModel.seekTo(positionMs)
+    }
+
+    override fun connectViewModel() {
+        mDisposable = mViewModel.getEvents().subscribe(
+            {
+                mExoUtil.seekTo(it)
+            },
+            {
+                Log.e("SeekCallbackError", it.message ?: "Unknown")
+            }
+        )
+
+        mViewModel.getPlayWhenReady().observe(this, Observer {
+            when (it) {
+                true -> mExoUtil.playVideo()
+                false -> mExoUtil.pauseVideo()
+            }
+        })
+
+        mViewModel.getPlayerState().observe(this, Observer {
+            when (it) {
+                VideoViewModel.PlayerState.STATE_BUFFERING -> mViewModel.showLoading()
+                VideoViewModel.PlayerState.STATE_READY -> mViewModel.showNotLoading()
+                else -> {}
+            }
+        })
+
+        mViewModel.getError().observe(this, Observer {
+            mViewModel.navigateBack()
+        })
+    }
+
+    //endregion
 }
