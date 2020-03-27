@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.databinding.ItemSingleFeedBinding
 import my.app.sportvideofeedapp.di.qualifiers.ActivityContext
 import my.app.sportvideofeedapp.ui.feedFragment.FeedFragmentCallback
+import my.app.sportvideofeedapp.utlis.helper.loadAnimation
 import javax.inject.Inject
 
 class FeedListAdapter @Inject constructor(
-    @ActivityContext fragmentContext: Context,
+    @ActivityContext private val fragmentContext: Context,
     private val mCallback: FeedFragmentCallback
 ) : RecyclerView.Adapter<FeedItemViewHolder>() {
 
@@ -22,12 +24,16 @@ class FeedListAdapter @Inject constructor(
 
     private val glide = Glide.with(fragmentContext)
 
+    private var wentToPosition = 0
+    private var animatedLast = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedItemViewHolder {
         val binding = ItemSingleFeedBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
+
         return FeedItemViewHolder(binding, mCallback)
     }
 
@@ -37,12 +43,35 @@ class FeedListAdapter @Inject constructor(
         holder.bind(data[position])
         glide
             .load(data[position].video.thumbnailUrl)
+            .error(R.drawable.ic_glide_error_24dp)
+            .fitCenter()
             .into(holder.getPosterImageView())
+
+        if (!isLastItem(position) && position >= wentToPosition) {
+            animateItem(holder.itemView, position)
+        } else if (isLastItem(position) && !animatedLast) {
+            animateLastItem(holder.itemView, position)
+        }
     }
 
     fun setFeedItemList(feedItemList: List<FeedItem>) {
         data = feedItemList
+        wentToPosition = 0
+        animatedLast = false
         notifyDataSetChanged()
+    }
+
+    private fun isLastItem(position: Int) = (position == itemCount - 1)
+
+    private fun animateItem(view: View, itemPosition: Int) {
+        loadAnimation(view, fragmentContext, R.anim.item_animation_fall_down)
+        wentToPosition = itemPosition
+    }
+
+    private fun animateLastItem(view: View, itemPosition: Int) {
+        loadAnimation(view, fragmentContext, R.anim.item_animation_fall_down)
+        wentToPosition = itemPosition
+        animatedLast = true
     }
 }
 

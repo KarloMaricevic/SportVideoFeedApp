@@ -5,6 +5,6 @@
         android:id="@+id/sport_spinner"
         android:title="@string/choose_sport_spinner_title"
         app:showAsAction="ifRoom"
-        app:actionViewClass="android.widget.Spinner">
+        app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner">
     </item>
 </menu>

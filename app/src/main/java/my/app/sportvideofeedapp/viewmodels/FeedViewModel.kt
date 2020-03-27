@@ -18,7 +18,7 @@ class FeedViewModel @Inject constructor(
 
     private val allSports = MutableLiveData<List<Sport>>()
 
-    private val chosenSport = MutableLiveData<Sport>()
+    private lateinit var chosenSport: Sport
 
     private val feedItemList = MutableLiveData<List<FeedItem>>()
 
@@ -40,15 +40,21 @@ class FeedViewModel @Inject constructor(
     fun getAllSports() = allSports as LiveData<List<Sport>>
 
     fun setChosenSport(sport: Sport) {
-        chosenSport.value = sport
+        chosenSport = sport
     }
 
-    fun getChosenSport() = chosenSport as LiveData<Sport>
+    fun getChosenSportPosition(): Int {
+        return if (::chosenSport.isInitialized) {
+            allSports.value!!.indexOf(chosenSport)
+        } else {
+            -1
+        }
+    }
 
     fun getFeedItemList() = feedItemList as LiveData<List<FeedItem>>
 
     fun loadFeedItems() {
-        val getPageDisposable = feedInteractor.getFeedPage(sportSlug = chosenSport.value!!.slug)
+        val getPageDisposable = feedInteractor.getFeedPage(sportSlug = chosenSport.slug)
             .observeOn(schedulersProvider.ui())
             .subscribe(
                 {

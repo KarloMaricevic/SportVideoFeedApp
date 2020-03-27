@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Spinner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.adapters.FeedListAdapter
-import my.app.sportvideofeedapp.adapters.FeedListItemDecoration
+import my.app.sportvideofeedapp.adapters.DefaultItemDecoration
 import my.app.sportvideofeedapp.adapters.SportSpinnerAdapter
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
@@ -23,7 +23,7 @@ import my.app.sportvideofeedapp.viewmodels.FeedViewModel
 import javax.inject.Inject
 
 class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
-    FeedFragmentCallback {
+    FeedFragmentCallback, AdapterView.OnItemSelectedListener {
 
     private lateinit var mBinding: FragmentFeedBinding
 
@@ -33,7 +33,7 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
     @Inject
     lateinit var sportAdapter: SportSpinnerAdapter
 
-    private val itemDecorator = FeedListItemDecoration(spacingBetweenItems, spacingItemsOfParents)
+    private val itemDecorator = DefaultItemDecoration(spacingBetweenItems, spacingItemsOfParents)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (activity!!.application as BaseApplication)
@@ -51,39 +51,43 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
         savedInstanceState: Bundle?
     ): View? {
         mBinding = FragmentFeedBinding.inflate(inflater, container, false)
-        setUpMenu()
-        connectViewModel()
-        mBinding.feedRecyclerView.adapter = feedListAdapter
-        mBinding.feedRecyclerView.addItemDecoration(itemDecorator)
         return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mBinding.feedRecyclerView.also {
+            it.addItemDecoration(itemDecorator)
+            it.adapter = feedListAdapter
+        }
+        setUpMenu()
     }
 
     private fun setUpMenu() {
         (mBinding.feedToolbar.menu.findItem(R.id.sport_spinner).actionView as Spinner).also {
             it.adapter = sportAdapter
+            it.onItemSelectedListener = this
+            it.setPopupBackgroundResource(R.drawable.shape_popup_background_sport_spinner)
         }
     }
 
     override fun connectViewModel() {
-        mViewModel.getAllSports().observe(viewLifecycleOwner, Observer {
+        mViewModel.getAllSports().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             sportAdapter.clear()
             sportAdapter.addAll(it)
+            if (mViewModel.getChosenSportPosition() >= 0) {
+                (mBinding.feedToolbar.menu.findItem(R.id.sport_spinner).actionView as Spinner).setSelection(
+                    mViewModel.getChosenSportPosition()
+                )
+            }
         })
-        mViewModel.getFeedItemList().observe(viewLifecycleOwner, Observer {
+        mViewModel.getFeedItemList().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             feedListAdapter.setFeedItemList(it)
-        })
-        mViewModel.getChosenSport().observe(viewLifecycleOwner, Observer {
-            sportAdapter.setChosenSport(it)
         })
     }
 
     override fun getRootView(): View {
         return mBinding.root
-    }
-
-    override fun chosenSportCallback(sport: Sport) {
-        mViewModel.setChosenSport(sport)
-        mViewModel.loadFeedItems()
     }
 
     override fun feedItemPressedCallback(feedItem: FeedItem) {
@@ -97,6 +101,14 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
                 navigateTo.feedItem
             )
         }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        mViewModel.setChosenSport(parent?.getItemAtPosition(position) as Sport)
+        mBinding.feedRecyclerView.scheduleLayoutAnimation()
+        mViewModel.loadFeedItems()
     }
 
     companion object {

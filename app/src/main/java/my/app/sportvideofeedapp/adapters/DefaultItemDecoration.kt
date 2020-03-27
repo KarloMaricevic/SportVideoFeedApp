@@ -4,9 +4,9 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class FeedListItemDecoration(
-    private val mSpaceBetweenItems: Int,
-    private val mSpacingOfParent: Int
+class DefaultItemDecoration(
+    private val mSpaceBetweenItems: Int = 0,
+    private val mSpacingOfParent: Int = 0
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
