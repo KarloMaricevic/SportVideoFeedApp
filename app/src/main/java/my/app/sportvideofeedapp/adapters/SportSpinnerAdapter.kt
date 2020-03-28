@@ -9,11 +9,11 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.data.entities.Sport
-import my.app.sportvideofeedapp.di.qualifiers.ActivityContext
+import my.app.sportvideofeedapp.di.qualifiers.FragmentContext
 import javax.inject.Inject
 
 class SportSpinnerAdapter @Inject constructor(
-    @ActivityContext context: Context
+    @FragmentContext context: Context
 ) : ArrayAdapter<Sport>(context, 0) {
 
     private val glide = Glide.with(context)

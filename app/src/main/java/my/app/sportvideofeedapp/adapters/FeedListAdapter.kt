@@ -10,13 +10,13 @@ import com.bumptech.glide.Glide
 import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.databinding.ItemSingleFeedBinding
-import my.app.sportvideofeedapp.di.qualifiers.ActivityContext
+import my.app.sportvideofeedapp.di.qualifiers.FragmentContext
 import my.app.sportvideofeedapp.ui.feedFragment.FeedFragmentCallback
 import my.app.sportvideofeedapp.utlis.helper.loadAnimation
 import javax.inject.Inject
 
 class FeedListAdapter @Inject constructor(
-    @ActivityContext private val fragmentContext: Context,
+    @FragmentContext private val fragmentContext: Context,
     private val mCallback: FeedFragmentCallback
 ) : RecyclerView.Adapter<FeedItemViewHolder>() {
 
