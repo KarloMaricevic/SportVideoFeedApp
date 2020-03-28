@@ -8,9 +8,13 @@ import my.app.sportvideofeedapp.data.network.pojo.CountryResponse
 import my.app.sportvideofeedapp.data.network.pojo.SportResponse
 import javax.inject.Inject
 
-class AthleteMapper @Inject constructor(private val countryMapper : BasicListMapper<CountryResponse, Country>, private val sportMapper: BasicListMapper<SportResponse,Sport>) : BasicListMapper<AthleteResponse, Athlete>() {
+class AthleteMapper @Inject constructor(
+    private val countryMapper: BasicListMapper<CountryResponse, Country>,
+    private val sportMapper: BasicListMapper<SportResponse, Sport>
+) : BasicListMapper<AthleteResponse, Athlete>() {
     override fun convert(objectToConvert: AthleteResponse): Athlete {
-        return Athlete(objectToConvert.id,
+        return Athlete(
+            objectToConvert.id,
             objectToConvert.age,
             objectToConvert.name,
             objectToConvert.avatarUrl,
@@ -18,6 +22,6 @@ class AthleteMapper @Inject constructor(private val countryMapper : BasicListMap
             objectToConvert.isCelebrity,
             countryMapper.convert(objectToConvert.country),
             sportMapper.convert(objectToConvert.sport)
-            )
+        )
     }
 }
