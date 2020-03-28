@@ -41,7 +41,7 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
             .create(this)
             .inject(this)
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(VideoViewModel::class.java)
-        mViewModel.feedItem = navigationArgs.feedItem
+        mViewModel.setFeedItem(navigationArgs.feedItem)
         super.onCreate(savedInstanceState)
     }
 
@@ -56,7 +56,7 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.feedItem = navigationArgs.feedItem
+        mViewModel.setFeedItem(navigationArgs.feedItem)
         mBinding.videoPlayerView.setControlDispatcher(mCustomPlayerControlDispatcher)
         setUpExoPlayer()
     }
@@ -86,7 +86,7 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
             }
         })
 
-        mViewModel.isShowMorePressed.observe(this, Observer {
+        mViewModel.getIsShowMorePressed().observe(this, Observer {
             when (it) {
                 true -> mBinding.videoDescriptionTextView?.visibility = View.VISIBLE
                 false -> mBinding.videoDescriptionTextView?.visibility = View.GONE
@@ -142,7 +142,7 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
 
     private fun setUpExoPlayer() {
         mExoUtil.setPlayerView(mBinding.videoPlayerView)
-        mExoUtil.setUrl(mViewModel.feedItem.video.videoUrl)
+        mExoUtil.setUrl(mViewModel.getFeedItem().video.videoUrl)
         mExoUtil.setPlayerControlDispatcher(mCustomPlayerControlDispatcher)
         mExoUtil.setInitPlayerPosition(mViewModel.getSavedPlayerPosition())
         mExoUtil.setListener(this)

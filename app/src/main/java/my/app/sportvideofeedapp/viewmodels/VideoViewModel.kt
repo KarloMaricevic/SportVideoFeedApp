@@ -18,55 +18,66 @@ class VideoViewModel @Inject constructor() : BaseViewModel() {
         STATE_ENDED
     }
 
-    // doesn't make sense that this data would be MutableLiveData  [might be wrong]
+    // doesn't make sense that this property would be MutableLiveData  [might be wrong]
 
-    lateinit var feedItem: FeedItem
+    private lateinit var mFeedItem: FeedItem
 
-    var isShowMorePressed = MutableLiveData<Boolean>()
+    private val mIsShowMorePressed = MutableLiveData<Boolean>()
 
     // should I save this in bundle and not here?
 
-    private var savedPlayerPosition: Long = 0
+    private var mSavedPlayerPosition: Long = 0
 
-    private val playerState = MutableLiveData<PlayerState>()
+    private val mPlayerState = MutableLiveData<PlayerState>()
 
-    private val playWhenReady = MutableLiveData(true)
+    private val mPlayWhenReady = MutableLiveData(true)
 
-    private val playerError = MutableLiveData<ExoPlaybackException>()
+    private val mPlayerError = MutableLiveData<ExoPlaybackException>()
 
-    private val seekToEvent = PublishRelay.create<Long>()
+    private val mSeekToEvent = PublishRelay.create<Long>()
 
-    fun getSavedPlayerPosition() = savedPlayerPosition
+    // region getter & setters
+
+    fun getSavedPlayerPosition() = mSavedPlayerPosition
 
     fun setSavedPlayerPosition(playerPosition: Long) {
-        savedPlayerPosition = playerPosition
+        mSavedPlayerPosition = playerPosition
     }
 
-    fun getEvents() = seekToEvent as Observable<Long>
+    fun getEvents() = mSeekToEvent as Observable<Long>
 
-    fun getPlayerState() = playerState as LiveData<PlayerState>
+    fun getPlayerState() = mPlayerState as LiveData<PlayerState>
 
-    fun getPlayWhenReady() = playWhenReady as LiveData<Boolean>
+    fun getPlayWhenReady() = mPlayWhenReady as LiveData<Boolean>
 
     fun setState(playerState: PlayerState) {
-        this.playerState.value = playerState
+        this.mPlayerState.value = playerState
     }
 
     fun setError(error: ExoPlaybackException) {
-        playerError.value = error
+        mPlayerError.value = error
     }
 
-    fun getError() = playerError as LiveData<ExoPlaybackException>
+    fun getError() = mPlayerError as LiveData<ExoPlaybackException>
 
     fun pauseVideo() {
-        playWhenReady.value = false
+        mPlayWhenReady.value = false
     }
 
     fun playVideo() {
-        playWhenReady.value = true
+        mPlayWhenReady.value = true
     }
 
     fun seekTo(positionInMs: Long) {
-        seekToEvent.accept(positionInMs)
+        mSeekToEvent.accept(positionInMs)
     }
+
+    fun getFeedItem() = mFeedItem
+
+    fun setFeedItem(feedItem: FeedItem) {
+        mFeedItem = feedItem
+    }
+
+    fun getIsShowMorePressed() = mIsShowMorePressed
+    //endregion
 }
