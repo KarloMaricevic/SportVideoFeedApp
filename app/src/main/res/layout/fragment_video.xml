@@ -1,13 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.videoFragment.VideoFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/video_player_view"
+    <data>
+
+        <variable
+            name="videoViewModel"
+            type="my.app.sportvideofeedapp.viewmodels.VideoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.google.android.exoplayer2.ui.PlayerView>
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        >
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/video_player_view"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </com.google.android.exoplayer2.ui.PlayerView>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/video_buffering_content_loading_progress_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar"
+            app:layout_constraintStart_toStartOf="@id/video_player_view"
+            app:layout_constraintEnd_toEndOf="@id/video_player_view"
+            app:layout_constraintTop_toTopOf="@id/video_player_view"
+            app:layout_constraintBottom_toBottomOf="@id/video_player_view"
+            >
+        </androidx.core.widget.ContentLoadingProgressBar>
+
+        <TextView
+            android:id="@+id/video_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{videoViewModel.feedItem.author.name}"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_player_view"
+            tool:text="Video name">
+        </TextView>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@={videoViewModel.isShowMorePressed}"
+            android:button="@drawable/selector_expand"
+            app:layout_constraintBottom_toBottomOf="@id/video_name_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/video_name_text_view">
+        </com.google.android.material.checkbox.MaterialCheckBox>
+
+        <TextView
+            android:id="@+id/video_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{videoViewModel.feedItem.description}"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_name_text_view"
+            tool:text="This pot was made in 1991 when I was in Austria on PotCup where I won silver medal"
+            tool:visibility="visible">
+        </TextView>
+
+        <TextView
+            android:id="@+id/viewed_by_text_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Viewed by:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_description_text_view">
+
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/who_watched_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@{videoViewModel.feedItem.whoWatched}"
+            app:layout_constraintStart_toEndOf="@id/viewed_by_text_text_view"
+            app:layout_constraintTop_toBottomOf="@id/video_description_text_view"
+            tool:text="Vlatko Pršić,Susjed, PlaviSokol1990">
+        </TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

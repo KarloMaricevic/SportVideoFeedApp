@@ -30,7 +30,9 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
 
     private lateinit var mBinding: FragmentVideoBinding
 
-    internal lateinit var mDisposable: Disposable
+    private val navigationArgs: VideoFragmentArgs by navArgs()
+
+    private lateinit var mSeekDisposable: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (activity!!.application as BaseApplication)
@@ -38,9 +40,8 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
             .getVideoSubcomponentFactory()
             .create(this)
             .inject(this)
-        val navigationArgs: VideoFragmentArgs by navArgs()
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(VideoViewModel::class.java)
-        mViewModel.setFeedItem(navigationArgs.feedItem)
+        mViewModel.feedItem = navigationArgs.feedItem
         super.onCreate(savedInstanceState)
     }
 
@@ -55,23 +56,55 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mViewModel.feedItem = navigationArgs.feedItem
         mBinding.videoPlayerView.setControlDispatcher(mCustomPlayerControlDispatcher)
         setUpExoPlayer()
     }
 
     override fun onPause() {
         mViewModel.setSavedPlayerPosition(mExoUtil.getPlayerPosition())
-        mDisposable.dispose()
+        mSeekDisposable.dispose()
         super.onPause()
     }
 
-    private fun setUpExoPlayer() {
-        mExoUtil.setPlayerView(mBinding.videoPlayerView)
-        mExoUtil.setUrl(mViewModel.getFeedItem().video.videoUrl)
-        mExoUtil.setPlayerControlDispatcher(mCustomPlayerControlDispatcher)
-        mExoUtil.setInitPlayerPosition(mViewModel.getSavedPlayerPosition())
-        mExoUtil.setListener(this)
-        ExoUtilHandler.makeAndConnectExoUtilHandler(mExoUtil, this.lifecycle)
+    override fun connectViewModel() {
+        mBinding.videoViewModel = mViewModel
+
+        mSeekDisposable = mViewModel.getEvents().subscribe(
+            {
+                mExoUtil.seekTo(it)
+            },
+            {
+                Log.e("SeekCallbackError", it.message ?: "Unknown")
+            }
+        )
+
+        mViewModel.getPlayWhenReady().observe(this, Observer {
+            when (it) {
+                true -> mExoUtil.playVideo()
+                false -> mExoUtil.pauseVideo()
+            }
+        })
+
+        mViewModel.isShowMorePressed.observe(this, Observer {
+            when (it) {
+                true -> mBinding.videoDescriptionTextView?.visibility = View.VISIBLE
+                false -> mBinding.videoDescriptionTextView?.visibility = View.GONE
+            }
+        })
+
+        mViewModel.getPlayerState().observe(this, Observer {
+            when (it) {
+                VideoViewModel.PlayerState.STATE_BUFFERING -> showBufferingVideo()
+                VideoViewModel.PlayerState.STATE_READY -> hideBufferingVideo()
+                else -> {
+                }
+            }
+        })
+
+        mViewModel.getError().observe(this, Observer {
+            mViewModel.navigateBack()
+        })
     }
 
     //region Callbacks
@@ -105,35 +138,22 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
         mViewModel.seekTo(positionMs)
     }
 
-    override fun connectViewModel() {
-        mDisposable = mViewModel.getEvents().subscribe(
-            {
-                mExoUtil.seekTo(it)
-            },
-            {
-                Log.e("SeekCallbackError", it.message ?: "Unknown")
-            }
-        )
+    //endregion
 
-        mViewModel.getPlayWhenReady().observe(this, Observer {
-            when (it) {
-                true -> mExoUtil.playVideo()
-                false -> mExoUtil.pauseVideo()
-            }
-        })
-
-        mViewModel.getPlayerState().observe(this, Observer {
-            when (it) {
-                VideoViewModel.PlayerState.STATE_BUFFERING -> mViewModel.showLoading()
-                VideoViewModel.PlayerState.STATE_READY -> mViewModel.showNotLoading()
-                else -> {}
-            }
-        })
-
-        mViewModel.getError().observe(this, Observer {
-            mViewModel.navigateBack()
-        })
+    private fun setUpExoPlayer() {
+        mExoUtil.setPlayerView(mBinding.videoPlayerView)
+        mExoUtil.setUrl(mViewModel.feedItem.video.videoUrl)
+        mExoUtil.setPlayerControlDispatcher(mCustomPlayerControlDispatcher)
+        mExoUtil.setInitPlayerPosition(mViewModel.getSavedPlayerPosition())
+        mExoUtil.setListener(this)
+        ExoUtilHandler.makeAndConnectExoUtilHandler(mExoUtil, this.lifecycle)
     }
 
-    //endregion
+    private fun showBufferingVideo() {
+        mBinding.videoBufferingContentLoadingProgressBar.show()
+    }
+
+    private fun hideBufferingVideo() {
+        mBinding.videoBufferingContentLoadingProgressBar.hide()
+    }
 }

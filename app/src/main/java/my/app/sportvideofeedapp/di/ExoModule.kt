@@ -29,7 +29,7 @@ import my.app.sportvideofeedapp.EXO_PLAYER_USER_AGENT
 import my.app.sportvideofeedapp.EXO_PLAYER_VIDEO_CACHE_DURATION
 import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.di.qualifiers.AppContext
-import my.app.sportvideofeedapp.utlis.helper.DefaultCacheDataSourceFactory
+import my.app.sportvideofeedapp.utlis.exo.DefaultCacheDataSourceFactory
 import java.io.File
 import javax.inject.Singleton
 
@@ -148,7 +148,9 @@ interface ExoModule {
         @Singleton
         @Provides
         fun provideCacheDataSourceFactory(cacheDataSource: CacheDataSource): DataSource.Factory {
-            return DefaultCacheDataSourceFactory(cacheDataSource)
+            return DefaultCacheDataSourceFactory(
+                cacheDataSource
+            )
         }
 
         @Singleton

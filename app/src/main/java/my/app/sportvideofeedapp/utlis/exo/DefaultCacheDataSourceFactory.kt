@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.utlis.helper
+package my.app.sportvideofeedapp.utlis.exo
 
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource

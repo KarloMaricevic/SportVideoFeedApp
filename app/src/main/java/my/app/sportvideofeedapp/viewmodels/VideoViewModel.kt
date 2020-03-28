@@ -3,7 +3,6 @@ package my.app.sportvideofeedapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.Player
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import my.app.sportvideofeedapp.core.viewModel.BaseViewModel
@@ -21,7 +20,9 @@ class VideoViewModel @Inject constructor() : BaseViewModel() {
 
     // doesn't make sense that this data would be MutableLiveData  [might be wrong]
 
-    private lateinit var feedItem: FeedItem
+    lateinit var feedItem: FeedItem
+
+    var isShowMorePressed = MutableLiveData<Boolean>()
 
     // should I save this in bundle and not here?
 
@@ -35,8 +36,6 @@ class VideoViewModel @Inject constructor() : BaseViewModel() {
 
     private val seekToEvent = PublishRelay.create<Long>()
 
-    fun getFeedItem() = feedItem
-
     fun getSavedPlayerPosition() = savedPlayerPosition
 
     fun setSavedPlayerPosition(playerPosition: Long) {
@@ -49,15 +48,11 @@ class VideoViewModel @Inject constructor() : BaseViewModel() {
 
     fun getPlayWhenReady() = playWhenReady as LiveData<Boolean>
 
-    fun setFeedItem(feedItem: FeedItem) {
-        this.feedItem = feedItem
-    }
-
     fun setState(playerState: PlayerState) {
         this.playerState.value = playerState
     }
 
-    fun setError(error : ExoPlaybackException) {
+    fun setError(error: ExoPlaybackException) {
         playerError.value = error
     }
 
