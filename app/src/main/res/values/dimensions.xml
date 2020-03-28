@@ -9,4 +9,11 @@
     <dimen name="text_size_author_name">20sp</dimen>
     <dimen name="text_size_sports_group">20sp</dimen>
 
+
+    <!--fragment_video-->
+
+    <dimen name="text_view_margin_top">8dp</dimen>
+    <dimen name="text_view_margin_start">8dp</dimen>
+    <dimen name="text_view_margin_end">8dp</dimen>
+
 </resources>

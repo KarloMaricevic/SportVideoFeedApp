@@ -16,4 +16,7 @@
     <!--item_sport-->
     <string name="sport_image_content_description">Sport image</string>
 
+    <!--fragment_video-->
+    <string name="viewed_by">Viewed by</string>
+
 </resources>

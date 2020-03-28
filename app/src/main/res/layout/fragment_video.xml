@@ -4,7 +4,6 @@
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="videoViewModel"
             type="my.app.sportvideofeedapp.viewmodels.VideoViewModel" />
@@ -44,12 +43,15 @@
             android:layout_height="wrap_content"
             android:text="@{videoViewModel.feedItem.author.name}"
             android:textSize="30sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/text_view_margin_top"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_player_view"
-            tool:text="Video name">
+            tool:text="Author name">
         </TextView>
 
         <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/show_description_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="@={videoViewModel.isShowMorePressed}"
@@ -65,6 +67,8 @@
             android:layout_height="wrap_content"
             android:text="@{videoViewModel.feedItem.description}"
             android:visibility="gone"
+            android:layout_marginStart="@dimen/text_view_margin_start"
+            android:layout_marginTop="@dimen/text_view_margin_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_name_text_view"
@@ -76,7 +80,11 @@
             android:id="@+id/viewed_by_text_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Viewed by:"
+            android:text="@string/viewed_by"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:layout_marginTop="@dimen/text_view_margin_top"
+            android:layout_marginStart="@dimen/text_view_margin_start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_description_text_view">
 
@@ -89,6 +97,8 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="@{videoViewModel.feedItem.whoWatched}"
+            android:layout_marginStart="@dimen/text_view_margin_start"
+            android:layout_marginTop="@dimen/text_view_margin_top"
             app:layout_constraintStart_toEndOf="@id/viewed_by_text_text_view"
             app:layout_constraintTop_toBottomOf="@id/video_description_text_view"
             tool:text="Vlatko Pršić,Susjed, PlaviSokol1990">
