@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import my.app.sportvideofeedapp.BaseApplication
-import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.adapters.FeedListAdapter
+import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.adapters.DefaultItemDecoration
 import my.app.sportvideofeedapp.adapters.SportSpinnerAdapter
 import my.app.sportvideofeedapp.data.entities.FeedItem
@@ -32,6 +33,9 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
 
     @Inject
     lateinit var sportAdapter: SportSpinnerAdapter
+
+    @Inject
+    lateinit var mFeedItemAdapter: FeedListAdapter
 
     private val itemDecorator = DefaultItemDecoration(spacingBetweenItems, spacingItemsOfParents)
 
@@ -58,7 +62,7 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
         super.onViewCreated(view, savedInstanceState)
         mBinding.feedRecyclerView.also {
             it.addItemDecoration(itemDecorator)
-            it.adapter = feedListAdapter
+            it.adapter = mFeedItemAdapter
         }
         setUpMenu()
     }
@@ -81,9 +85,15 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
                 )
             }
         })
-        mViewModel.getFeedItemList().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            feedListAdapter.setFeedItemList(it)
+
+        mViewModel.getFeedPagedList().observe(viewLifecycleOwner, Observer {
+            mFeedItemAdapter.submitList(it)
         })
+
+        mViewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
+            mFeedItemAdapter.setNetworkState(it)
+        })
+        mFeedItemAdapter.setRetryCallback { mViewModel.retryPageLoad() }
     }
 
     override fun getRootView(): View {
@@ -103,12 +113,11 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
         }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
+    override fun onNothingSelected(parent: AdapterView<*>?) = Unit
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         mViewModel.setChosenSport(parent?.getItemAtPosition(position) as Sport)
         mBinding.feedRecyclerView.scheduleLayoutAnimation()
-        mViewModel.loadFeedItems()
     }
 
     companion object {

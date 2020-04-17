@@ -23,6 +23,33 @@ class ApiHelperImplementation @Inject constructor(
             .map { feedItemMapper.convertList(it) }
     }
 
+    override fun getFeedPages(
+        startPage: Int,
+        howMany: Int,
+        sportSlug: String
+    ): Single<List<FeedItem>> {
+        var pageNumber = startPage
+        val observablePageList = arrayListOf<Single<List<FeedItem>>>()
+        do {
+            observablePageList.add(
+                getFeedPage(pageNumber, sportSlug)
+            )
+            pageNumber++
+        } while (pageNumber < howMany + startPage)
+
+        return Single.zip(observablePageList) {
+            val combinedList = arrayListOf<FeedItem>()
+            for (itemArray in it) {
+                if (itemArray is ArrayList<*>) {
+                    for (item in itemArray) {
+                        if (item is FeedItem) combinedList.add(item)
+                    }
+                }
+            }
+            return@zip combinedList.toList()
+        }
+    }
+
     override fun getAllSport(): Single<List<Sport>> {
         return apiService.getAllSports()
             .subscribeOn(appSchedulerProvider.io())

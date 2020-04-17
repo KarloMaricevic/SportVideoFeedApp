@@ -2,16 +2,22 @@ package my.app.sportvideofeedapp.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import my.app.sportvideofeedapp.adapters.PagerLoadState
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.data.interactors.FeedInteractor
+import my.app.sportvideofeedapp.data.pagnationDataSource.FeedDataSourceFactory
 import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces.NavigateToVideoFragment
 import my.app.sportvideofeedapp.utlis.scheduler.SchedulerProvider
 import javax.inject.Inject
 
 class FeedViewModel @Inject constructor(
     private val feedInteractor: FeedInteractor,
+    private val mFeedDataSourceFactory: FeedDataSourceFactory,
     private val schedulersProvider: SchedulerProvider
 ) :
     NetworkViewModel() {
@@ -20,7 +26,7 @@ class FeedViewModel @Inject constructor(
 
     private lateinit var chosenSport: Sport
 
-    private val feedItemList = MutableLiveData<List<FeedItem>>()
+    private val feedItemPagedList: LiveData<PagedList<FeedItem>>
 
     init {
         val getAllSportsObserver = feedInteractor
@@ -34,6 +40,12 @@ class FeedViewModel @Inject constructor(
                     handleNetworkError(it)
                 }
             )
+        val confing = PagedList.Config.Builder()
+            .setPageSize(mInitPageLoad)
+            .setEnablePlaceholders(false)
+            .build()
+
+        feedItemPagedList = LivePagedListBuilder(mFeedDataSourceFactory, confing).build()
         mCompositeDisposable.add(getAllSportsObserver)
     }
 
@@ -41,6 +53,7 @@ class FeedViewModel @Inject constructor(
 
     fun setChosenSport(sport: Sport) {
         chosenSport = sport
+        mFeedDataSourceFactory.getDataSourceFactory().value!!.setChosenSport(sport)
     }
 
     fun getChosenSportPosition(): Int {
@@ -51,23 +64,21 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    fun getFeedItemList() = feedItemList as LiveData<List<FeedItem>>
+    fun getFeedPagedList() = feedItemPagedList
 
-    fun loadFeedItems() {
-        val getPageDisposable = feedInteractor.getFeedPage(sportSlug = chosenSport.slug)
-            .observeOn(schedulersProvider.ui())
-            .subscribe(
-                {
-                    feedItemList.value = it
-                },
-                {
-                    handleNetworkError(it)
-                }
-            )
-        mCompositeDisposable.add(getPageDisposable)
+    fun retryPageLoad() {
+        mFeedDataSourceFactory.getDataSourceFactory().value!!.retry()
     }
+
+    fun getNetworkState(): LiveData<PagerLoadState> = Transformations.switchMap(
+        mFeedDataSourceFactory.getDataSourceFactory()
+    ) { it.getState() }
 
     fun navigateToVideoFragment(feedItem: FeedItem) {
         navigateTo.value = NavigateToVideoFragment(feedItem)
+    }
+
+    companion object {
+        const val mInitPageLoad = 2
     }
 }
