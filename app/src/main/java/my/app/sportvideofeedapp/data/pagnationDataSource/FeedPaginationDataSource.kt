@@ -62,6 +62,7 @@ class FeedPaginationDataSource(
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, FeedItem>) = Unit
 
     fun setChosenSport(sport: Sport) {
+        if (mChosenSport == sport) return
         mChosenSport = sport
         invalidate()
     }
