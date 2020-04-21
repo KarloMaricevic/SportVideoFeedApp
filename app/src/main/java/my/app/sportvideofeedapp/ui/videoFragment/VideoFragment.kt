@@ -156,4 +156,6 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
     private fun hideBufferingVideo() {
         mBinding.videoBufferingContentLoadingProgressBar.hide()
     }
+
+    override fun isContainedInsedeOtherFragment(): Boolean = false
 }

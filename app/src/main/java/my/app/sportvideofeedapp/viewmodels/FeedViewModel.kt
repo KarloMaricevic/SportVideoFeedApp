@@ -75,7 +75,7 @@ class FeedViewModel @Inject constructor(
     ) { it.getState() }
 
     fun navigateToVideoFragment(feedItem: FeedItem) {
-        navigateTo.value = NavigateToVideoFragment(feedItem)
+        navigateTo.accept(NavigateToVideoFragment(feedItem))
     }
 
     companion object {

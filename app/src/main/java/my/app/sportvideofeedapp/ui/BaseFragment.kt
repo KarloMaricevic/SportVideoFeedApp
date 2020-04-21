@@ -6,15 +6,15 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import my.app.sportvideofeedapp.core.views.LoadingView
-import my.app.sportvideofeedapp.routers.NavigationPlaces
+import io.reactivex.disposables.Disposable
 import my.app.sportvideofeedapp.core.router.Router
-
 import my.app.sportvideofeedapp.core.viewModel.BaseViewModel
-import my.app.sportvideofeedapp.core.viewModel.BaseViewModel.Loading.LOADING
-import my.app.sportvideofeedapp.core.viewModel.BaseViewModel.Loading.NOT_LOADING
+import my.app.sportvideofeedapp.core.views.LoadingView
 import my.app.sportvideofeedapp.core.views.NavigationView
+import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.utlis.widgets.CustomProgressDialog
+
+import java.lang.Exception
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
@@ -30,29 +30,43 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
 
     private var mLadingDialog = CustomProgressDialog()
 
+    // because lifecycle's onPause called before onCreateView
+    private var mNavigationDisposable: Disposable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this) {
-                mViewModel.navigateBack()
-            }
+        if (!isContainedInsedeOtherFragment()) {
+            activity!!
+                .onBackPressedDispatcher
+                .addCallback(this) {
+                    mViewModel.navigateBack()
+                }
+        }
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeLoading()
-        observeNavigation()
+        if (!isContainedInsedeOtherFragment()) {
+            observeNavigation()
+        }
         connectViewModel()
+    }
+
+    override fun onPause() {
+        mNavigationDisposable?.dispose()
+        super.onPause()
     }
 
     private fun observeLoading() {
         mViewModel.getIsLoading().observe(viewLifecycleOwner, Observer {
             when (it) {
-                NOT_LOADING -> hideLoading()
-                LOADING -> showLoading()
-                else -> {}
-            } })
+                BaseViewModel.Loading.NOT_LOADING -> hideLoading()
+                BaseViewModel.Loading.LOADING -> showLoading()
+                else -> {
+                }
+            }
+        })
     }
 
     override fun showLoading() {
@@ -75,10 +89,16 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
     }
 
     private fun observeNavigation() {
-        mViewModel.getNavigateTo().observe(viewLifecycleOwner, Observer {
-            navigate(it)
-        })
+        mNavigationDisposable = mViewModel.getNavigateTo().subscribe(
+            {
+                navigate(it)
+            },
+            {
+                throw Exception("Navigation error: " + it.message)
+            })
     }
 
     abstract fun connectViewModel()
+
+    abstract fun isContainedInsedeOtherFragment(): Boolean
 }

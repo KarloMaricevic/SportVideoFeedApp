@@ -120,6 +120,8 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
         mBinding.feedRecyclerView.scheduleLayoutAnimation()
     }
 
+    override fun isContainedInsedeOtherFragment(): Boolean = false
+
     companion object {
         const val spacingBetweenItems = 10
         const val spacingItemsOfParents = 20
