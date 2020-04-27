@@ -7,12 +7,13 @@ import javax.inject.Inject
 open class DefaultRouter @Inject constructor(protected val mFragment: Fragment) : Router {
 
     override fun navigateBack() {
-        if (!mFragment.findNavController().navigateUp()) {
+
+        if (!mFragment.findNavController().popBackStack()) {
             exitApp()
         }
     }
 
     override fun exitApp() {
-        mFragment.activity!!.finishAndRemoveTask()
+        mFragment.requireActivity().finishAndRemoveTask()
     }
 }

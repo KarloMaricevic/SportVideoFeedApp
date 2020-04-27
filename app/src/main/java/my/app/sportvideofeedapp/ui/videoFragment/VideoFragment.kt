@@ -35,7 +35,7 @@ class VideoFragment : BaseFragment<VideoViewModel, DefaultRouter>(),
     private lateinit var mSeekDisposable: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (activity!!.application as BaseApplication)
+        (requireActivity().application as BaseApplication)
             .getAppComponent()
             .getVideoSubcomponentFactory()
             .create(this)

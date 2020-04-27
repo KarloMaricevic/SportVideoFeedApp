@@ -58,7 +58,7 @@ abstract class NetworkPagedListAdapter<T>(diffUtil: DiffUtil.ItemCallback<T>) :
                     } else {
                         notifyItemInserted(super.getItemCount())
                     }
-                } else if (hasExtraRow && previousState !== newLoadState) {
+                } else if (hasExtraRow && previousState != newLoadState) {
                     notifyItemChanged(itemCount - 1)
                 }
             }

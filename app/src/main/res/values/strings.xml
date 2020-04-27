@@ -18,5 +18,9 @@
 
     <!--fragment_video-->
     <string name="viewed_by">Viewed by</string>
+    <string name="feed">feed</string>
+    <string name="settings">settings</string>
+    <string name="myprofilepicture">myProfilePicture</string>
+    <string name="my_profile">My profile</string>
 
 </resources>

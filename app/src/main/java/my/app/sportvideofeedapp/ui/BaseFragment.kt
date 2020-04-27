@@ -35,7 +35,7 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (!isContainedInsedeOtherFragment()) {
-            activity!!
+            requireActivity()
                 .onBackPressedDispatcher
                 .addCallback(this) {
                     mViewModel.navigateBack()

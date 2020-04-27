@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.ui.feedFragment
+package my.app.sportvideofeedapp.ui.containerFragment.feedFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import my.app.sportvideofeedapp.BaseApplication
@@ -13,20 +14,21 @@ import my.app.sportvideofeedapp.adapters.FeedListAdapter
 import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.adapters.DefaultItemDecoration
 import my.app.sportvideofeedapp.adapters.SportSpinnerAdapter
+import my.app.sportvideofeedapp.core.router.DefaultRouter
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.databinding.FragmentFeedBinding
-import my.app.sportvideofeedapp.routers.FeedRouter
-import my.app.sportvideofeedapp.routers.NavigationPlaces
-import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces
 import my.app.sportvideofeedapp.ui.NetworkFragment
 import my.app.sportvideofeedapp.viewmodels.FeedViewModel
+import my.app.sportvideofeedapp.viewmodels.SharedContainerViewModel
 import javax.inject.Inject
 
-class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
+class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
     FeedFragmentCallback, AdapterView.OnItemSelectedListener {
 
     private lateinit var mBinding: FragmentFeedBinding
+
+    private lateinit var mSharedViewModel : SharedContainerViewModel
 
     @Inject
     lateinit var feedListAdapter: FeedListAdapter
@@ -40,12 +42,13 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
     private val itemDecorator = DefaultItemDecoration(spacingBetweenItems, spacingItemsOfParents)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (activity!!.application as BaseApplication)
+        (requireActivity().application as BaseApplication)
             .getAppComponent()
             .getFeedSubcomponentFactory()
-            .create(this, this, context!!)
+            .create(this, this, requireContext())
             .inject(this)
-        mViewModel = ViewModelProvider(this, mViewModelFactory).get(FeedViewModel::class.java)
+        mViewModel = ViewModelProvider(parentFragment as Fragment, mViewModelFactory).get(FeedViewModel::class.java)
+        mSharedViewModel = ViewModelProvider(parentFragment as Fragment,mViewModelFactory).get(SharedContainerViewModel::class.java)
         super.onCreate(savedInstanceState)
     }
 
@@ -101,26 +104,16 @@ class FeedFragment : NetworkFragment<FeedViewModel, FeedRouter>(),
     }
 
     override fun feedItemPressedCallback(feedItem: FeedItem) {
-        mViewModel.navigateToVideoFragment(feedItem)
-    }
-
-    override fun navigate(navigateTo: NavigationPlaces) {
-        super.navigate(navigateTo)
-        when (navigateTo) {
-            is PlaceHolderNavigationPlaces.NavigateToVideoFragment -> router.navigateToVideoFragment(
-                navigateTo.feedItem
-            )
-        }
+        mSharedViewModel.sendClickedFeedItem(feedItem)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) = Unit
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         mViewModel.setChosenSport(parent?.getItemAtPosition(position) as Sport)
-        mBinding.feedRecyclerView.scheduleLayoutAnimation()
     }
 
-    override fun isContainedInsedeOtherFragment(): Boolean = false
+    override fun isContainedInsedeOtherFragment(): Boolean = true
 
     companion object {
         const val spacingBetweenItems = 10

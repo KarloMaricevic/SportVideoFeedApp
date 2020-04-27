@@ -11,7 +11,7 @@ import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.data.interactors.FeedInteractor
 import my.app.sportvideofeedapp.data.pagnationDataSource.FeedDataSourceFactory
-import my.app.sportvideofeedapp.routers.PlaceHolderNavigationPlaces.NavigateToVideoFragment
+import my.app.sportvideofeedapp.routers.ContainerNavigationPlaces.NavigateToVideoFragment
 import my.app.sportvideofeedapp.utlis.scheduler.SchedulerProvider
 import javax.inject.Inject
 
@@ -73,10 +73,6 @@ class FeedViewModel @Inject constructor(
     fun getNetworkState(): LiveData<PagerLoadState> = Transformations.switchMap(
         mFeedDataSourceFactory.getDataSourceFactory()
     ) { it.getState() }
-
-    fun navigateToVideoFragment(feedItem: FeedItem) {
-        navigateTo.accept(NavigateToVideoFragment(feedItem))
-    }
 
     companion object {
         const val mInitPageLoad = 2

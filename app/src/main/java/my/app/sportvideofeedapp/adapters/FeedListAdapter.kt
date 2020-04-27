@@ -12,7 +12,7 @@ import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.databinding.ItemSingleFeedBinding
 import my.app.sportvideofeedapp.di.qualifiers.FragmentContext
-import my.app.sportvideofeedapp.ui.feedFragment.FeedFragmentCallback
+import my.app.sportvideofeedapp.ui.containerFragment.feedFragment.FeedFragmentCallback
 import javax.inject.Inject
 
 class FeedListAdapter @Inject constructor(

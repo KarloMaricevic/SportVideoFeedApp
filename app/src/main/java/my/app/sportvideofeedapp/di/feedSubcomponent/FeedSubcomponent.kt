@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import dagger.BindsInstance
 import dagger.Subcomponent
-import my.app.sportvideofeedapp.ui.feedFragment.FeedFragmentCallback
+import my.app.sportvideofeedapp.ui.containerFragment.feedFragment.FeedFragmentCallback
 import my.app.sportvideofeedapp.di.qualifiers.FragmentContext
 import my.app.sportvideofeedapp.di.scope.PerFragment
-import my.app.sportvideofeedapp.ui.feedFragment.FeedFragment
+import my.app.sportvideofeedapp.ui.containerFragment.feedFragment.FeedFragment
 
 @PerFragment
 @Subcomponent(
