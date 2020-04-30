@@ -22,5 +22,7 @@
     <string name="settings">settings</string>
     <string name="myprofilepicture">myProfilePicture</string>
     <string name="my_profile">My profile</string>
+    <string name="my_history">My history</string>
+    <string name="history">History</string>
 
 </resources>

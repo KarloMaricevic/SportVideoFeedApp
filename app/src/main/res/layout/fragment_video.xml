@@ -4,6 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="videoViewModel"
             type="my.app.sportvideofeedapp.viewmodels.VideoViewModel" />
@@ -12,79 +13,71 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        >
+        android:animateLayoutChanges="true">
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/video_player_view"
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </com.google.android.exoplayer2.ui.PlayerView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/video_buffering_content_loading_progress_bar"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             style="@style/Widget.AppCompat.ProgressBar"
-            app:layout_constraintStart_toStartOf="@id/video_player_view"
-            app:layout_constraintEnd_toEndOf="@id/video_player_view"
-            app:layout_constraintTop_toTopOf="@id/video_player_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/video_player_view"
-            >
-        </androidx.core.widget.ContentLoadingProgressBar>
+            app:layout_constraintEnd_toEndOf="@id/video_player_view"
+            app:layout_constraintStart_toStartOf="@id/video_player_view"
+            app:layout_constraintTop_toTopOf="@id/video_player_view"/>
 
         <TextView
             android:id="@+id/video_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{videoViewModel.feedItem.author.name}"
-            android:textSize="30sp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/text_view_margin_top"
+            android:text="@{videoViewModel.feedItem.author.name}"
+            android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_player_view"
-            tool:text="Author name">
-        </TextView>
+            tool:text="Author name" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/show_description_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@={videoViewModel.isShowMorePressed}"
             android:button="@drawable/selector_expand"
+            android:checked="@={videoViewModel.isShowMorePressed}"
             app:layout_constraintBottom_toBottomOf="@id/video_name_text_view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/video_name_text_view">
-        </com.google.android.material.checkbox.MaterialCheckBox>
+            app:layout_constraintTop_toTopOf="@id/video_name_text_view" />
 
         <TextView
             android:id="@+id/video_description_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{videoViewModel.feedItem.description}"
-            android:visibility="gone"
             android:layout_marginStart="@dimen/text_view_margin_start"
             android:layout_marginTop="@dimen/text_view_margin_top"
+            android:text="@{videoViewModel.feedItem.description}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_name_text_view"
             tool:text="This pot was made in 1991 when I was in Austria on PotCup where I won silver medal"
-            tool:visibility="visible">
-        </TextView>
+            tool:visibility="visible" />
 
         <TextView
             android:id="@+id/viewed_by_text_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_view_margin_start"
+            android:layout_marginTop="@dimen/text_view_margin_top"
+            android:gravity="start"
             android:text="@string/viewed_by"
             android:textStyle="bold"
-            android:gravity="start"
-            android:layout_marginTop="@dimen/text_view_margin_top"
-            android:layout_marginStart="@dimen/text_view_margin_start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_description_text_view">
 
@@ -95,14 +88,13 @@
             android:id="@+id/who_watched_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="@{videoViewModel.feedItem.whoWatched}"
             android:layout_marginStart="@dimen/text_view_margin_start"
             android:layout_marginTop="@dimen/text_view_margin_top"
+            android:maxLines="1"
+            android:text="@{videoViewModel.feedItem.whoWatched}"
             app:layout_constraintStart_toEndOf="@id/viewed_by_text_text_view"
             app:layout_constraintTop_toBottomOf="@id/video_description_text_view"
-            tool:text="Vlatko Pršić,Susjed, PlaviSokol1990">
-        </TextView>
+            tool:text="Vlatko Pršić,Susjed, PlaviSokol1990" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.disposables.Disposable
@@ -39,6 +40,7 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
             .getContainerSubcomponentFactory()
             .create(this)
             .inject(this)
+        requireActivity().setTheme(AppCompatDelegate.MODE_NIGHT_YES)
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(ContainerViewModel::class.java)
         mSharedViewModel =
             ViewModelProvider(this, mViewModelFactory).get(SharedContainerViewModel::class.java)
