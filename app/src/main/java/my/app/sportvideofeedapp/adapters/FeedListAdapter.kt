@@ -81,7 +81,7 @@ class FeedItemViewHolder(
     RecyclerView.ViewHolder(mBinding.root), View.OnClickListener {
 
     fun bind(feedItem: FeedItem) {
-        mBinding.feedItemCardView.setOnClickListener(this)
+        mBinding.root.setOnClickListener(this)
         mBinding.feedItem = feedItem
         mBinding.executePendingBindings()
     }

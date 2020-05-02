@@ -3,5 +3,7 @@
     <style name="Base.Theme.sportVideoFeedApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="backgroundColor">@color/colorBackground</item>
         <item name="settingsVectorColor">@color/settingsVectorColor</item>
+        <item name="mainTextColor">@color/mainTextColor</item>
+        <item name="otherTextColor">@color/otherTextColor</item>
     </style>
 </resources>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="padding_start">8dp</dimen>
 
     <!--item_single_feed-->
     <dimen name="margin_start_constraint_layout_item">8dp</dimen>

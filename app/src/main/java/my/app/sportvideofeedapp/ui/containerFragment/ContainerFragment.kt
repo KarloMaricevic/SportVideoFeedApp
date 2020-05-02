@@ -59,7 +59,6 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.containerViewPager.adapter = mContainerPagerAdapter
         mBinding.containerViewPager.isUserInputEnabled = false
         mBinding.containerBottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
@@ -88,6 +87,11 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
                 navigateTo.feedItem
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mBinding.containerViewPager.adapter = mContainerPagerAdapter
     }
 
     override fun onPause() {

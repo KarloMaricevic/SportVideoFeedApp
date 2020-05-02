@@ -10,131 +10,80 @@
             type="my.app.sportvideofeedapp.data.entities.FeedItem" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/feed_item_card_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_start_constraint_layout_item"
-            android:layout_marginEnd="@dimen/margin_end_constraint_layout_item">
+        <TextView
+            android:id="@+id/author_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family_roboto"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{feedItem.author.name}"
+            android:textColor="?attr/mainTextColor"
+            android:textSize="@dimen/text_size_author_name"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bijeli Jastreb" />
 
-            <TextView
-                android:id="@+id/author_name_text_view"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="@{feedItem.author.name}"
-                android:textSize="@dimen/text_size_author_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Bijeli Jastreb">
+        <TextView
+            android:id="@+id/sport_group_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/font_family_roboto"
+            android:gravity="center_vertical"
+            android:text="@{feedItem.sportsGroup.name}"
+            android:textColor="?attr/mainTextColor"
+            android:textSize="@dimen/text_size_sports_group"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/author_name_text_view"
+            app:layout_constraintStart_toEndOf="@id/author_name_text_view"
+            app:layout_constraintTop_toTopOf="@id/author_name_text_view"
+            tools:text="Sport group name" />
 
-            </TextView>
+        <TextView
+            android:id="@+id/video_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#000000"
+            android:fontFamily="@font/font_family_roboto"
+            android:text="@{feedItem.video.length}"
+            android:textColor="#949091"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/poster_image_view"
+            app:layout_constraintEnd_toEndOf="@+id/poster_image_view"
+            tools:text="1:20" />
 
-            <TextView
-                android:id="@+id/sport_group_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@{feedItem.sportsGroup.name}"
-                android:textSize="@dimen/text_size_sports_group"
-                app:layout_constraintBottom_toBottomOf="@+id/author_name_text_view"
-                app:layout_constraintStart_toEndOf="@id/author_name_text_view"
-                app:layout_constraintTop_toTopOf="@id/author_name_text_view"
-                tools:text="Sport group name">
+        <TextView
+            android:id="@+id/created_before_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@{feedItem.createBefore}"
+            android:textColor="?attr/otherTextColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_name_text_view"
+            tools:text="12 min ago" />
 
-            </TextView>
+        <ImageView
+            android:id="@+id/poster_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:background="#000000"
+            android:contentDescription="@string/poster_image_content_description"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/created_before_text_view"
+            tools:background="#FFFFFF"
+            tools:src="@drawable/ic_poster_24dp" />
 
-            <ImageView
-                android:id="@+id/poster_image_view"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:contentDescription="@string/poster_image_content_description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author_name_text_view"
-                tools:src="@drawable/ic_poster_24dp">
-
-            </ImageView>
-
-            <TextView
-                android:id="@+id/length_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@string/length"
-                app:layout_constraintBottom_toTopOf="@+id/created_before_text_text_view"
-                app:layout_constraintStart_toEndOf="@+id/poster_image_view"
-                app:layout_constraintTop_toBottomOf="@+id/author_name_text_view">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/video_time_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@{feedItem.video.length}"
-                app:layout_constraintStart_toEndOf="@+id/length_text_view"
-                app:layout_constraintTop_toTopOf="@+id/length_text_view"
-                tools:text="1:20">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/created_before_text_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@string/before"
-                app:layout_constraintBottom_toTopOf="@id/sponsor_athlete_text_view"
-                app:layout_constraintStart_toEndOf="@id/poster_image_view"
-                app:layout_constraintTop_toBottomOf="@id/length_text_view">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/created_before_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@{feedItem.createBefore}"
-                app:layout_constraintStart_toEndOf="@id/created_before_text_text_view"
-                app:layout_constraintTop_toTopOf="@id/created_before_text_text_view"
-                tools:text="12 min ago">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/sponsor_athlete_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@string/sponsor_athlete"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/poster_image_view"
-                app:layout_constraintTop_toBottomOf="@id/created_before_text_view">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/sponosr_athlete_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_start"
-                android:text="@{feedItem.athlete.name}"
-                app:layout_constraintStart_toEndOf="@id/sponsor_athlete_text_view"
-                app:layout_constraintTop_toTopOf="@id/sponsor_athlete_text_view"
-                tools:text="Snich Modric">
-
-            </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

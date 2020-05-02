@@ -2,4 +2,6 @@
 <resources>
     <color name="colorBackground">#313231</color>
     <color name="settingsVectorColor">#5d5d5d</color>
+    <color name="mainTextColor">#FFFFFF</color>
+    <color name="otherTextColor">#757575</color>
 </resources>

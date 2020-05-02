@@ -19,7 +19,7 @@ class DefaultItemDecoration(
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.set(
                 mSpacingOfParent,
-                mSpaceBetweenItems,
+                4,
                 mSpacingOfParent,
                 mSpaceBetweenItems
             )

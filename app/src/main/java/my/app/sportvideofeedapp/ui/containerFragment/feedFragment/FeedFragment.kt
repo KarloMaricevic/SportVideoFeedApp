@@ -116,7 +116,7 @@ class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
     override fun isContainedInsedeOtherFragment(): Boolean = true
 
     companion object {
-        const val spacingBetweenItems = 10
+        const val spacingBetweenItems = 100
         const val spacingItemsOfParents = 20
     }
 }
