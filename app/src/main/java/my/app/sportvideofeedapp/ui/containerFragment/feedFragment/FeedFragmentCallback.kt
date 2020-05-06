@@ -1,7 +1,7 @@
 package my.app.sportvideofeedapp.ui.containerFragment.feedFragment
 
-import my.app.sportvideofeedapp.data.entities.FeedItem
+import my.app.sportvideofeedapp.data.entities.Author
 
 interface FeedFragmentCallback {
-    fun feedItemPressedCallback(feedItem: FeedItem)
+    fun feedAuthorPressedCallback(feedAuthor: Author)
 }

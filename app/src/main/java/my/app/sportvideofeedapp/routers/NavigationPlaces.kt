@@ -10,5 +10,4 @@ sealed class NavigationPlaces {
 // trying to find better solution but for now (all sealed classes must be in the same file)
 
 sealed class ContainerNavigationPlaces : NavigationPlaces() {
-     data class NavigateToVideoFragment(val feedItem: FeedItem) : ContainerNavigationPlaces()
 }

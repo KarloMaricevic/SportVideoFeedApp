@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,6 +12,7 @@ import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.databinding.ItemSingleFeedBinding
 import my.app.sportvideofeedapp.di.qualifiers.FragmentContext
 import my.app.sportvideofeedapp.ui.containerFragment.feedFragment.FeedFragmentCallback
+import my.app.sportvideofeedapp.utlis.exo.ExoUtil
 import javax.inject.Inject
 
 class FeedListAdapter @Inject constructor(
@@ -53,7 +53,7 @@ class FeedListAdapter @Inject constructor(
                         .load(item.video.thumbnailUrl)
                         .error(R.drawable.ic_glide_error_24dp)
                         .fitCenter()
-                        .into(holder.getPosterImageView())
+                        .into(holder.getThumbnailImageView())
                 }
             }
             else -> super.onBindViewHolder(holder, position)
@@ -78,19 +78,49 @@ class FeedItemViewHolder(
     private val mBinding: ItemSingleFeedBinding,
     private val mFeedFragmentCallback: FeedFragmentCallback
 ) :
-    RecyclerView.ViewHolder(mBinding.root), View.OnClickListener {
+    RecyclerView.ViewHolder(mBinding.root), View.OnClickListener, PlayerView {
 
     fun bind(feedItem: FeedItem) {
-        mBinding.root.setOnClickListener(this)
+        mBinding.authorNameTextView.setOnClickListener(this)
         mBinding.feedItem = feedItem
         mBinding.executePendingBindings()
     }
 
-    fun getPosterImageView(): ImageView {
-        return mBinding.posterImageView
+    override fun play(exoUtil: ExoUtil) {
+        exoUtil.setUpExoPlayer(mBinding.feedItem!!.video.videoUrl)
+        mBinding.videoPlayer.player = exoUtil.mExoPlayer
+        exoUtil.mExoPlayer.playWhenReady = true
+        onPlaying(true)
+    }
+
+    override fun stop() {
+        onPlaying(false)
+        mBinding.videoPlayer
+        mBinding.videoPlayer.player = null
     }
 
     override fun onClick(v: View?) {
-        mFeedFragmentCallback.feedItemPressedCallback(mBinding.feedItem!!)
+        mFeedFragmentCallback.feedAuthorPressedCallback(mBinding.feedItem!!.author)
     }
+
+    fun onPlaying(isPlaying: Boolean) {
+        if (isPlaying) {
+            mBinding.thumbnailImageView.visibility = View.GONE
+            mBinding.videoPlayer.visibility = View.VISIBLE
+            mBinding.videoTimeTextView.visibility = View.GONE
+        } else {
+            mBinding.thumbnailImageView.visibility = View.VISIBLE
+            mBinding.videoPlayer.visibility = View.GONE
+            mBinding.videoTimeTextView.visibility = View.VISIBLE
+        }
+    }
+
+    fun getThumbnailImageView() = mBinding.thumbnailImageView
 }
+
+interface PlayerView {
+    fun play(exoUtil: ExoUtil)
+    fun stop()
+}
+
+

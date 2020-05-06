@@ -11,8 +11,6 @@ import my.app.sportvideofeedapp.di.feedSubcomponent.FeedSubcomponentFactory
 import my.app.sportvideofeedapp.di.qualifiers.AppContext
 import my.app.sportvideofeedapp.di.settingsSubcomponent.SettingsSubcomponent
 import my.app.sportvideofeedapp.di.settingsSubcomponent.SettingsSubcomponentFactory
-import my.app.sportvideofeedapp.di.videoSubcomponent.VideoSubcomponent
-import my.app.sportvideofeedapp.di.videoSubcomponent.VideoSubcomponentFactory
 import javax.inject.Singleton
 
 @Singleton
@@ -22,7 +20,6 @@ import javax.inject.Singleton
         NetworkSourceModule::class,
         SchedulerModule::class,
         FeedSubcomponentFactory::class,
-        VideoSubcomponentFactory::class,
         ContainerSubcomponentFactory::class,
         SettingsSubcomponentFactory::class,
         ViewModelFactoryModule::class,
@@ -35,7 +32,6 @@ interface AppComponent {
 
     fun inject(app: BaseApplication)
     fun getFeedSubcomponentFactory(): FeedSubcomponent.Factory
-    fun getVideoSubcomponentFactory(): VideoSubcomponent.Factory
     fun getContainerSubcomponentFactory(): ContainerSubcomponent.Factory
     fun getSettingsSubcomponentFactory(): SettingsSubcomponent.Factory
 

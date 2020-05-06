@@ -11,7 +11,6 @@ import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.data.interactors.FeedInteractor
 import my.app.sportvideofeedapp.data.pagnationDataSource.FeedDataSourceFactory
-import my.app.sportvideofeedapp.routers.ContainerNavigationPlaces.NavigateToVideoFragment
 import my.app.sportvideofeedapp.utlis.scheduler.SchedulerProvider
 import javax.inject.Inject
 

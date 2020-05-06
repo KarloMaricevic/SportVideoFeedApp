@@ -11,7 +11,6 @@ import my.app.sportvideofeedapp.viewmodels.DaggerViewModelFactory
 import my.app.sportvideofeedapp.viewmodels.FeedViewModel
 import my.app.sportvideofeedapp.viewmodels.SettingsViewModel
 import my.app.sportvideofeedapp.viewmodels.SharedContainerViewModel
-import my.app.sportvideofeedapp.viewmodels.VideoViewModel
 
 @Module
 interface ViewModelFactoryModule {
@@ -37,9 +36,4 @@ interface ViewModelFactoryModule {
     @IntoMap
     @ViewModelKey(SharedContainerViewModel::class)
     fun provideSharedContainerViewModel(sharedContainerViewModel: SharedContainerViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(VideoViewModel::class)
-    fun provideVideoViewModel(videoViewModel: VideoViewModel): ViewModel
 }

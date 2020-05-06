@@ -31,7 +31,7 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
 
     private lateinit var mSharedViewModel: SharedContainerViewModel
 
-    private lateinit var mClickedFeedItemDisposable : Disposable
+    private lateinit var mClickedFeedItemDisposable: Disposable
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,20 +74,10 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
         return true
     }
 
-    override fun connectViewModel() {
-        mClickedFeedItemDisposable = mSharedViewModel.getClickedFeedItem().subscribe({
-            mViewModel.navigateToVideoFragment(it)
-        }, {})
-    }
+    override fun connectViewModel() = Unit
 
 
-    override fun navigate(navigateTo: NavigationPlaces) {
-        when (navigateTo) {
-            is ContainerNavigationPlaces.NavigateToVideoFragment -> router.navigateToVideoFragment(
-                navigateTo.feedItem
-            )
-        }
-    }
+    override fun navigate(navigateTo: NavigationPlaces) = Unit
 
     override fun onResume() {
         super.onResume()

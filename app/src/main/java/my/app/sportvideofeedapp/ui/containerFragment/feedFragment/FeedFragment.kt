@@ -9,16 +9,19 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.exoplayer2.ExoPlayer
 import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.adapters.FeedListAdapter
 import my.app.sportvideofeedapp.R
 import my.app.sportvideofeedapp.adapters.DefaultItemDecoration
 import my.app.sportvideofeedapp.adapters.SportSpinnerAdapter
 import my.app.sportvideofeedapp.core.router.DefaultRouter
+import my.app.sportvideofeedapp.data.entities.Author
 import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.databinding.FragmentFeedBinding
 import my.app.sportvideofeedapp.ui.NetworkFragment
+import my.app.sportvideofeedapp.utlis.exo.ExoUtil
 import my.app.sportvideofeedapp.viewmodels.FeedViewModel
 import my.app.sportvideofeedapp.viewmodels.SharedContainerViewModel
 import javax.inject.Inject
@@ -28,7 +31,7 @@ class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
 
     private lateinit var mBinding: FragmentFeedBinding
 
-    private lateinit var mSharedViewModel : SharedContainerViewModel
+    private lateinit var mSharedViewModel: SharedContainerViewModel
 
     @Inject
     lateinit var feedListAdapter: FeedListAdapter
@@ -39,6 +42,12 @@ class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
     @Inject
     lateinit var mFeedItemAdapter: FeedListAdapter
 
+    @Inject
+    lateinit var mExoPlayer: ExoPlayer
+
+    @Inject
+    lateinit var mExoUtil: ExoUtil
+
     private val itemDecorator = DefaultItemDecoration(spacingBetweenItems, spacingItemsOfParents)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +56,13 @@ class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
             .getFeedSubcomponentFactory()
             .create(this, this, requireContext())
             .inject(this)
-        mViewModel = ViewModelProvider(parentFragment as Fragment, mViewModelFactory).get(FeedViewModel::class.java)
-        mSharedViewModel = ViewModelProvider(parentFragment as Fragment,mViewModelFactory).get(SharedContainerViewModel::class.java)
+        mViewModel = ViewModelProvider(
+            parentFragment as Fragment,
+            mViewModelFactory
+        ).get(FeedViewModel::class.java)
+        mSharedViewModel = ViewModelProvider(parentFragment as Fragment, mViewModelFactory).get(
+            SharedContainerViewModel::class.java
+        )
         super.onCreate(savedInstanceState)
     }
 
@@ -64,6 +78,7 @@ class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.feedRecyclerView.also {
+            it.mExoUtil = mExoUtil
             it.addItemDecoration(itemDecorator)
             it.adapter = mFeedItemAdapter
         }
@@ -103,8 +118,8 @@ class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),
         return mBinding.root
     }
 
-    override fun feedItemPressedCallback(feedItem: FeedItem) {
-        mSharedViewModel.sendClickedFeedItem(feedItem)
+    override fun feedAuthorPressedCallback(feedAuthor: Author) {
+        mSharedViewModel.sendClickedFeedItem(feedAuthor)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) = Unit

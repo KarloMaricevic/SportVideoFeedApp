@@ -8,9 +8,4 @@ import my.app.sportvideofeedapp.ui.containerFragment.ContainerFragmentDirections
 //import my.app.sportvideofeedapp.ui.containerFragment.feedFragment.FeedFragmentDirections
 import javax.inject.Inject
 
-class ContainerRouter @Inject constructor(fragment: Fragment) : DefaultRouter(fragment){
-    fun navigateToVideoFragment(feedItem: FeedItem) {
-        val action = ContainerFragmentDirections.actionContainerFragmentToVideoFragment(feedItem)
-        mFragment.findNavController().navigate(action)
-    }
-}
+class ContainerRouter @Inject constructor(fragment: Fragment) : DefaultRouter(fragment)
