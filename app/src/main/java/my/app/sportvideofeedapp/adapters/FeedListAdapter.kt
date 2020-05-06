@@ -122,5 +122,3 @@ interface PlayerView {
     fun play(exoUtil: ExoUtil)
     fun stop()
 }
-
-

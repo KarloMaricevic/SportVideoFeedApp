@@ -3,7 +3,9 @@
   <component name="DetektProjectConfiguration">
     <enableDetekt>true</enableDetekt>
     <enableFormatting>true</enableFormatting>
+    <buildUponDefaultConfig>true</buildUponDefaultConfig>
     <failFast>true</failFast>
+    <treatAsError>true</treatAsError>
     <rulesPath>C:\Users\Karlo\Desktop\Github projekti\mvvmtemplateaplication\config\detekt\detekt.yml</rulesPath>
   </component>
 </project>

@@ -18,10 +18,10 @@ class BaseApplication : Application() {
 
     fun getAppComponent() = mAppComponent
 
-    private fun setStyle(){
-        if(Build.VERSION.SDK_INT < Q){
+    private fun setStyle() {
+        if (Build.VERSION.SDK_INT < Q) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-        }else{
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }

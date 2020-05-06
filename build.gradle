@@ -69,7 +69,7 @@ task clean(type: Delete) {
 
 detekt {
 	toolVersion = "$detekt_version"
-    input = files(rootProject.rootDir)
+    input = files("app/src")
     config = files('config/detekt/detekt.yml')
     failFast = false
     reports {

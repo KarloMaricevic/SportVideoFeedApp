@@ -71,7 +71,7 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
 
     override fun showLoading() {
         if (!mLadingDialog.isVisible) {
-            mLadingDialog.show(activity!!.supportFragmentManager, "Loading")
+            mLadingDialog.show(requireActivity().supportFragmentManager, "Loading")
         }
     }
 
@@ -88,6 +88,7 @@ abstract class BaseFragment<VM : BaseViewModel, R : Router> : Fragment(),
         }
     }
 
+    @Suppress("TooGenericExceptionThrown")
     private fun observeNavigation() {
         mNavigationDisposable = mViewModel.getNavigateTo().subscribe(
             {
