@@ -1,6 +1,8 @@
 <resources>
 
     <style name="Base.Theme.sportVideoFeedApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="backgroundColor">@color/colorBackground</item>
         <item name="settingsVectorColor">@color/settingsVectorColor</item>
         <item name="mainTextColor">@color/mainTextColor</item>
