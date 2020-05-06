@@ -31,7 +31,7 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
 
     private lateinit var mSharedViewModel: SharedContainerViewModel
 
-    private lateinit var mClickedFeedItemDisposable: Disposable
+    private lateinit var mClickedAuthorDisposable: Disposable
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +86,6 @@ class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
 
     override fun onPause() {
         super.onPause()
-        mClickedFeedItemDisposable.dispose()
         mBinding.containerViewPager.adapter = null
     }
 }
