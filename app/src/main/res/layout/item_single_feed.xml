@@ -10,90 +10,115 @@
             type="my.app.sportvideofeedapp.data.entities.FeedItem" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/author_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/font_family_roboto"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="@{feedItem.author.name}"
-            android:textColor="?attr/mainTextColor"
-            android:textSize="@dimen/text_size_author_name"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Bijeli Jastreb" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp">
 
-        <TextView
-            android:id="@+id/sport_group_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/font_family_roboto"
-            android:gravity="center_vertical"
-            android:text="@{feedItem.sportsGroup.name}"
-            android:textColor="?attr/mainTextColor"
-            android:textSize="@dimen/text_size_sports_group"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/author_name_text_view"
-            app:layout_constraintStart_toEndOf="@id/author_name_text_view"
-            app:layout_constraintTop_toTopOf="@id/author_name_text_view"
-            tools:text="Sport group name" />
+            <TextView
+                android:id="@+id/author_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family_roboto"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@{feedItem.author.name}"
+                android:textColor="?attr/mainTextColor"
+                android:textSize="@dimen/text_size_author_name"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Bijeli Jastreb" />
 
-        <TextView
-            android:id="@+id/video_time_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:translationZ="2dp"
-            android:background="#000000"
-            android:fontFamily="@font/font_family_roboto"
-            android:text="@{feedItem.video.length}"
-            android:textColor="#949091"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/thumbnail_image_view"
-            app:layout_constraintEnd_toEndOf="@+id/thumbnail_image_view"
-            tools:text="1:20" />
+            <TextView
+                android:id="@+id/sport_group_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/font_family_roboto"
+                android:gravity="center_vertical"
+                android:text="@{feedItem.sportsGroup.name}"
+                android:textColor="?attr/mainTextColor"
+                android:textSize="@dimen/text_size_sports_group"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/author_name_text_view"
+                app:layout_constraintStart_toEndOf="@id/author_name_text_view"
+                app:layout_constraintTop_toTopOf="@id/author_name_text_view"
+                tools:text="Sport group name" />
 
-        <TextView
-            android:id="@+id/created_before_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@{feedItem.createBefore}"
-            android:textColor="?attr/otherTextColor"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/author_name_text_view"
-            tools:text="12 min ago" />
 
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/video_player"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/poster_image_content_description"
-            android:visibility="gone"
-            app:layout_constraintDimensionRatio="16:9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/created_before_text_view"
-            app:use_controller="false" />
+            <TextView
+                android:id="@+id/created_before_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@{feedItem.createBefore}"
+                android:textColor="?attr/otherTextColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/author_name_text_view"
+                tools:text="12 min ago" />
 
-        <ImageView
-            android:id="@+id/thumbnail_image_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="16:9"
-            android:contentDescription="@string/video_thumbnail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/created_before_text_view" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                android:id="@+id/player_frame_layout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/created_before_text_view">
+
+                <include
+                    android:id="@+id/layout_player"
+                    layout="@layout/layout_player" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/video_time_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#000000"
+                android:fontFamily="@font/font_family_roboto"
+                android:text="@{feedItem.video.length}"
+                android:textColor="#949091"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/player_frame_layout"
+                app:layout_constraintEnd_toEndOf="@+id/player_frame_layout"
+                tools:text="1:20" />
+
+
+            <TextView
+                android:id="@+id/viewed_by_text_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/viewed_by"
+                android:textColor="?attr/otherTextColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/player_frame_layout" />
+
+            <TextView
+                android:id="@+id/viewed_by_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{feedItem.whoWatched}"
+                android:textColor="?attr/otherTextColor"
+                app:layout_constraintBottom_toBottomOf="@id/viewed_by_text_text_view"
+                app:layout_constraintStart_toEndOf="@id/viewed_by_text_text_view"
+                app:layout_constraintTop_toTopOf="@id/viewed_by_text_text_view"
+                tools:text="Luka Modrić and 255 others" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>

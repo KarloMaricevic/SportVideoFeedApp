@@ -17,7 +17,7 @@
     <string name="sport_image_content_description">Sport image</string>
 
     <!--fragment_video-->
-    <string name="viewed_by">Viewed by</string>
+    <string name="viewed_by">Viewed by:</string>
     <string name="feed">feed</string>
     <string name="settings">settings</string>
     <string name="myprofilepicture">myProfilePicture</string>
