@@ -231,6 +231,7 @@ formatting:
     continuationIndentSize: 4
   MaximumLineLength:
     active: true
+    excludes: ['**/di/**']
     maxLineLength: 180
   ModifierOrdering:
     active: true
@@ -514,6 +515,7 @@ style:
     active: false
   MaxLineLength:
     active: true
+    excludes: ['**/di/**']
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true

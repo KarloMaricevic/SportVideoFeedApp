@@ -17,18 +17,16 @@ class ExoPlayerRecyclerView @JvmOverloads constructor(
     var playingViewHolder: PlayerView? = null
 
     override fun onScrollStateChanged(state: Int) {
-        super.onScrollStateChanged(state)
-        if (state == SCROLL_STATE_IDLE) {
-            if (layoutManager is LinearLayoutManager) {
-                val adapterPosition =
-                    (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                if (adapterPosition != NO_POSITION) {
-                    val viewHolder = findViewHolderForAdapterPosition(adapterPosition)
-                    if (viewHolder is PlayerView) {
-                        playVideo(viewHolder)
-                    }
+        if (state == SCROLL_STATE_IDLE && layoutManager is LinearLayoutManager) {
+            val adapterPosition =
+                (layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+            if (adapterPosition != NO_POSITION) {
+                val viewHolder = findViewHolderForAdapterPosition(adapterPosition)
+                if (viewHolder is PlayerView) {
+                    playVideo(viewHolder)
                 }
             }
+
         }
     }
 

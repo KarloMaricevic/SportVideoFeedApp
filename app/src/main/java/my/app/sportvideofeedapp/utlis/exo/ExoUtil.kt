@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class ExoUtil @Inject constructor(
     val mExoPlayer: ExoPlayer,
-    val mFactory: ProgressiveMediaSource.Factory
+    private val mFactory: ProgressiveMediaSource.Factory
 ) {
 
     var playingURL: String? = null

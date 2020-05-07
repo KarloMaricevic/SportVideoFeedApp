@@ -19,12 +19,22 @@ class DefaultItemDecoration(
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.set(
                 mSpacingOfParent,
-                4,
+                spaceBetweenFirstItemAndParentTop,
                 mSpacingOfParent,
                 mSpaceBetweenItems
             )
         } else {
-            outRect.set(mSpacingOfParent, 0, mSpacingOfParent, mSpaceBetweenItems)
+            outRect.set(
+                mSpacingOfParent,
+                margintTopOfNotFirstItem,
+                mSpacingOfParent,
+                mSpaceBetweenItems
+            )
         }
+    }
+
+    companion object {
+        const val spaceBetweenFirstItemAndParentTop = 4
+        const val margintTopOfNotFirstItem = 0
     }
 }

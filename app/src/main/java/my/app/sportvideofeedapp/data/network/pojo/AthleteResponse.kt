@@ -2,7 +2,7 @@ package my.app.sportvideofeedapp.data.network.pojo
 
 import com.google.gson.annotations.SerializedName
 
-class AthleteResponse(
+data class AthleteResponse(
     val id: Int,
     val age: Int,
     val name: String,

@@ -88,15 +88,14 @@ class FeedItemViewHolder(
 
     override fun play(exoUtil: ExoUtil) {
         exoUtil.setUpExoPlayer(mBinding.feedItem!!.video.videoUrl)
-        mBinding.videoPlayer.player = exoUtil.mExoPlayer
+        mBinding.layoutPlayer.videoPlayer.player = exoUtil.mExoPlayer
         exoUtil.mExoPlayer.playWhenReady = true
         onPlaying(true)
     }
 
     override fun stop() {
         onPlaying(false)
-        mBinding.videoPlayer
-        mBinding.videoPlayer.player = null
+        mBinding.layoutPlayer.videoPlayer.player = null
     }
 
     override fun onClick(v: View?) {
@@ -105,22 +104,20 @@ class FeedItemViewHolder(
 
     fun onPlaying(isPlaying: Boolean) {
         if (isPlaying) {
-            mBinding.thumbnailImageView.visibility = View.GONE
-            mBinding.videoPlayer.visibility = View.VISIBLE
+            mBinding.layoutPlayer.thumbnailImageView.visibility = View.GONE
+            mBinding.layoutPlayer.videoPlayer.visibility = View.VISIBLE
             mBinding.videoTimeTextView.visibility = View.GONE
         } else {
-            mBinding.thumbnailImageView.visibility = View.VISIBLE
-            mBinding.videoPlayer.visibility = View.GONE
+            mBinding.layoutPlayer.thumbnailImageView.visibility = View.VISIBLE
+            mBinding.layoutPlayer.videoPlayer.visibility = View.GONE
             mBinding.videoTimeTextView.visibility = View.VISIBLE
         }
     }
 
-    fun getThumbnailImageView() = mBinding.thumbnailImageView
+    fun getThumbnailImageView() = mBinding.layoutPlayer.thumbnailImageView
 }
 
 interface PlayerView {
     fun play(exoUtil: ExoUtil)
     fun stop()
 }
-
-
