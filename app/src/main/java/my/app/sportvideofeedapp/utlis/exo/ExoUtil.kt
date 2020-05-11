@@ -22,4 +22,8 @@ class ExoUtil @Inject constructor(
         mExoPlayer.seekTo(initPlayerPosition)
         return mExoPlayer
     }
+
+    fun stopPlayer() {
+        mExoPlayer.stop()
+    }
 }

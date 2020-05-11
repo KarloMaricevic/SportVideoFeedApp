@@ -77,8 +77,7 @@ class FeedListAdapter @Inject constructor(
 class FeedItemViewHolder(
     private val mBinding: ItemSingleFeedBinding,
     private val mFeedFragmentCallback: FeedFragmentCallback
-) :
-    RecyclerView.ViewHolder(mBinding.root), View.OnClickListener, PlayerView {
+) : PlayerViewHolder(mBinding.root), View.OnClickListener {
 
     fun bind(feedItem: FeedItem) {
         mBinding.authorNameTextView.setOnClickListener(this)
@@ -117,7 +116,7 @@ class FeedItemViewHolder(
     fun getThumbnailImageView() = mBinding.layoutPlayer.thumbnailImageView
 }
 
-interface PlayerView {
-    fun play(exoUtil: ExoUtil)
-    fun stop()
+abstract class PlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract fun play(exoUtil: ExoUtil)
+    abstract fun stop()
 }
