@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.core.router.DefaultRouter
 import my.app.sportvideofeedapp.databinding.FragmentSettingsBinding
-import my.app.sportvideofeedapp.ui.BaseFragment
-import my.app.sportvideofeedapp.viewmodels.SettingsViewModel
+import my.app.sportvideofeedapp.core.views.BaseFragment
 
 class SettingsFragment : BaseFragment<SettingsViewModel, DefaultRouter>() {
 

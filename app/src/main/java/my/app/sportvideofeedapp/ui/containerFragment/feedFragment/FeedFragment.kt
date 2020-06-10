@@ -17,13 +17,11 @@ import my.app.sportvideofeedapp.adapters.DefaultItemDecoration
 import my.app.sportvideofeedapp.adapters.SportSpinnerAdapter
 import my.app.sportvideofeedapp.core.router.DefaultRouter
 import my.app.sportvideofeedapp.data.entities.Author
-import my.app.sportvideofeedapp.data.entities.FeedItem
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.databinding.FragmentFeedBinding
-import my.app.sportvideofeedapp.ui.NetworkFragment
+import my.app.sportvideofeedapp.core.views.NetworkFragment
 import my.app.sportvideofeedapp.utlis.exo.ExoUtil
-import my.app.sportvideofeedapp.viewmodels.FeedViewModel
-import my.app.sportvideofeedapp.viewmodels.SharedContainerViewModel
+import my.app.sportvideofeedapp.ui.containerFragment.SharedContainerViewModel
 import javax.inject.Inject
 
 class FeedFragment : NetworkFragment<FeedViewModel, DefaultRouter>(),

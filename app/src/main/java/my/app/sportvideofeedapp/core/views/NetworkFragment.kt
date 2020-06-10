@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.ui
+package my.app.sportvideofeedapp.core.views
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,6 @@ import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.HTT
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.HTTP_UNAUTHORIZED
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.JSON_SYNTAX_EXCEPTION
 import my.app.sportvideofeedapp.core.viewModel.NetworkViewModel.NetworkError.UNKNOWN
-import my.app.sportvideofeedapp.core.views.NetworkView
 import my.app.sportvideofeedapp.utlis.widgets.GeneralErrorSnackBarBuilder
 
 abstract class NetworkFragment<VM : NetworkViewModel, R : Router> :

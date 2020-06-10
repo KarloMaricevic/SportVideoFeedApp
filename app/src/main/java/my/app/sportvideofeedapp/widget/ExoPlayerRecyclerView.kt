@@ -2,7 +2,6 @@ package my.app.sportvideofeedapp.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import my.app.sportvideofeedapp.adapters.PlayerViewHolder

@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.viewmodels
+package my.app.sportvideofeedapp.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

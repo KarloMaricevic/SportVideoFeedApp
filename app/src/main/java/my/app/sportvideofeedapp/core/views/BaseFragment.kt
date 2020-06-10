@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.ui
+package my.app.sportvideofeedapp.core.views
 
 import android.os.Bundle
 import android.view.View
@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import io.reactivex.disposables.Disposable
 import my.app.sportvideofeedapp.core.router.Router
 import my.app.sportvideofeedapp.core.viewModel.BaseViewModel
-import my.app.sportvideofeedapp.core.views.LoadingView
-import my.app.sportvideofeedapp.core.views.NavigationView
 import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.utlis.widgets.CustomProgressDialog
 
