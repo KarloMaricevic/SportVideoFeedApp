@@ -19,7 +19,7 @@ import my.app.sportvideofeedapp.core.router.DefaultRouter
 import my.app.sportvideofeedapp.data.entities.Author
 import my.app.sportvideofeedapp.data.entities.Sport
 import my.app.sportvideofeedapp.databinding.FragmentFeedBinding
-import my.app.sportvideofeedapp.ui.NetworkFragment
+import my.app.sportvideofeedapp.core.views.NetworkFragment
 import my.app.sportvideofeedapp.utlis.exo.ExoUtil
 import my.app.sportvideofeedapp.ui.containerFragment.SharedContainerViewModel
 import javax.inject.Inject
