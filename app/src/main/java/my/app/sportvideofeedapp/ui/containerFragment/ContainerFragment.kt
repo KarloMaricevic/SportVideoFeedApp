@@ -15,12 +15,9 @@ import my.app.sportvideofeedapp.adapters.ContainerPagerAdapter
 import my.app.sportvideofeedapp.adapters.FEED_PAGE_INDEX
 import my.app.sportvideofeedapp.adapters.SETTINGS_PAGE_INDEX
 import my.app.sportvideofeedapp.databinding.FragmentContainerBinding
-import my.app.sportvideofeedapp.routers.ContainerNavigationPlaces
 import my.app.sportvideofeedapp.routers.ContainerRouter
 import my.app.sportvideofeedapp.routers.NavigationPlaces
 import my.app.sportvideofeedapp.ui.BaseFragment
-import my.app.sportvideofeedapp.viewmodels.ContainerViewModel
-import my.app.sportvideofeedapp.viewmodels.SharedContainerViewModel
 
 class ContainerFragment : BaseFragment<ContainerViewModel, ContainerRouter>(),
     BottomNavigationView.OnNavigationItemSelectedListener {

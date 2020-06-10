@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.viewmodels
+package my.app.sportvideofeedapp.ui.containerFragment
 
 import my.app.sportvideofeedapp.core.viewModel.BaseViewModel
 import my.app.sportvideofeedapp.data.entities.FeedItem

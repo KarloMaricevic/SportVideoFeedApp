@@ -6,11 +6,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import my.app.sportvideofeedapp.di.key.ViewModelKey
-import my.app.sportvideofeedapp.viewmodels.ContainerViewModel
-import my.app.sportvideofeedapp.viewmodels.DaggerViewModelFactory
-import my.app.sportvideofeedapp.viewmodels.FeedViewModel
-import my.app.sportvideofeedapp.viewmodels.SettingsViewModel
-import my.app.sportvideofeedapp.viewmodels.SharedContainerViewModel
+import my.app.sportvideofeedapp.ui.containerFragment.ContainerViewModel
+import my.app.sportvideofeedapp.ui.containerFragment.feedFragment.FeedViewModel
+import my.app.sportvideofeedapp.ui.containerFragment.settingsFragment.SettingsViewModel
+import my.app.sportvideofeedapp.ui.containerFragment.SharedContainerViewModel
 
 @Module
 interface ViewModelFactoryModule {

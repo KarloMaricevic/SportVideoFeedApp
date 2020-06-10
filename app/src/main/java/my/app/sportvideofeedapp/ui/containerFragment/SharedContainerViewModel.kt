@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.viewmodels
+package my.app.sportvideofeedapp.ui.containerFragment
 
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable

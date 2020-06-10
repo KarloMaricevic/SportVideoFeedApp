@@ -1,4 +1,4 @@
-package my.app.sportvideofeedapp.viewmodels
+package my.app.sportvideofeedapp.ui.containerFragment.feedFragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

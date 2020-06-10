@@ -9,7 +9,6 @@ import my.app.sportvideofeedapp.BaseApplication
 import my.app.sportvideofeedapp.core.router.DefaultRouter
 import my.app.sportvideofeedapp.databinding.FragmentSettingsBinding
 import my.app.sportvideofeedapp.ui.BaseFragment
-import my.app.sportvideofeedapp.viewmodels.SettingsViewModel
 
 class SettingsFragment : BaseFragment<SettingsViewModel, DefaultRouter>() {
 
